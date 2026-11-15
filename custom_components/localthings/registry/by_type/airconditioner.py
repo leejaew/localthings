@@ -54,6 +54,7 @@ REGISTRY = DeviceRegistry(
             airconditioner.MOTION_DETECT_WIND,
             airconditioner.CURRENT_TEMPERATURE,
             airconditioner.CURRENT_TEMPERATURE_VS,
+            airconditioner.CURRENT_TEMPERATURE_INDOOR_VS,
             airconditioner.HUMIDITY,
             # TP1X_DA-AC-FAC-class (issue #319): shares its /display/vs/0,
             # /settings/sound/output/vs/0 and /settings/sound/volume/vs/0
@@ -67,6 +68,10 @@ REGISTRY = DeviceRegistry(
             airconditioner.ENERGY_SAVING,
             airconditioner.EDGE_LIGHTING,
             airconditioner.LIGHT_STATEFUL,
+            # Bixby floor-standing AC (R18_BIXBY_FAC_TIME_23K, #839).
+            airconditioner.SPEAKER_VOLUME,
+            airconditioner.ALWAYS_ON_DISPLAY,
+            airconditioner.BLUETOOTH_SPEAKER,
             # System Fresh Air Ventilator (PR #316, ACA-KR-TP2-21-AN9000):
             # WINDFREE/WINDSLEEP are this device's own hrefs; HEPA_FILTER/
             # DEVICE_ACTIVE reuse air_purifier.py's identical shapes.

@@ -63,6 +63,28 @@ class SamsungEntityDescription:
     # resources is the coordinator's full href->rep snapshot, for gating
     # presence on a sibling resource (e.g. laundry.cycle_options's source).
     exists_fn: Callable[[dict, dict], bool] | None = None
+    # Recheck exists_fn after setup: add when present, unavailable when
+    # absent. For presence that follows live state, not the model. Its
+    # resource's absence never prunes it from the snapshot.
+    dynamic_presence: bool = False
+    # A static exists_fn that a first read can't always decide (the buzzer's
+    # vocabulary). A stub borrows the snapshot's rep at registration, and
+    # later live data that decides otherwise adds or disables it in place.
+    late_evidence: bool = False
+    # Remove this entity's registry row when exists_fn excludes it. Only for
+    # an exists_fn verified to mean "this model never has it" (#698, #747).
+    prune_when_excluded: bool = False
+    # (platform, key) rows this entity replaces, removed once it is included
+    # on a rep that carries its field (not a stub or {}) and the old key, if
+    # still bound, is excluded.
+    supersedes: tuple[tuple[str, str], ...] = ()
+    # Once included, remove this key's rows on its siblings' platforms. Only
+    # where inclusion is a model fact, never live state, and where a rep that
+    # can't decide yet excludes this descriptor.
+    replaces_siblings: bool = False
+    # An href the entity writes to that never answers a read: the entity
+    # exists only when the device has it (coordinator.has_href).
+    requires_href: str | None = None
     extra_state_attributes_fn: Callable[[dict, dict], dict[str, Any]] | None = None
     # One of cook.PARAM_*: a cook parameter the coordinator holds while an
     # idle oven can be started, instead of writing it (issue #473).
@@ -97,11 +119,19 @@ class SamsungEntityDescription:
     # {"controlResponse": {"result": false}} (AV boards).
     control_response: bool = False
 
+    def __post_init__(self) -> None:
+        # Excluded is the normal state of a dynamic entity, so neither
+        # registry removal may act on one.
+        if self.dynamic_presence and (
+            self.prune_when_excluded or self.supersedes or self.replaces_siblings
+        ):
+            raise ValueError(f"{self.key}: registry removal can't apply to dynamic_presence")
+        if self.prune_when_excluded and self.exists_fn is None:
+            raise ValueError(f"{self.key}: prune_when_excluded needs an exists_fn")
+
 
 @dataclass(frozen=True, kw_only=True)
 class SensorDesc(SamsungEntityDescription):
-    # Recheck inclusion after setup: add when present, unavailable when absent.
-    dynamic_presence: bool = False
     device_class: str | None = None
     state_class: str | None = None
     unit: str | None = None
@@ -135,6 +165,7 @@ class BinarySensorDesc(SamsungEntityDescription):
 
 @dataclass(frozen=True, kw_only=True)
 class SelectDesc(SamsungEntityDescription):
+    affects_playback: bool = False
     options: Any = ()  # tuple[str,...] | Callable[[dict[str, dict]], list[str]]
     # callable form receives the coordinator's full href->rep resource
     # snapshot (not just this entity's own href) and returns raw device
@@ -197,6 +228,8 @@ class NumberDesc(SamsungEntityDescription):
 
 @dataclass(frozen=True, kw_only=True)
 class TimeDesc(SamsungEntityDescription):
+    # (raw value, local now) -> displayed clock for a daily UTC-backed window.
+    native_value_fn: Callable[[Any, datetime], dt_time | None] | None = None
     write_fn: WriteFn = None
     payload_fn: TimePayloadFn = None
 
@@ -243,6 +276,9 @@ class MediaModeSurface:
     options_field: str
     # Wire value -> label, for values with no readable name (`wifiidle`).
     labels: Mapping[str, str] | None = None
+    # rep -> {wire value: label}, for a mode list of rows rather than strings
+    # (a TV's {id, name} rows); options_field and labels are then unused.
+    options_fn: Callable[[dict], Mapping[str, str]] | None = None
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -265,6 +301,27 @@ class MediaPlayerDesc(SamsungEntityDescription):
     # resources -> False when the generic playback and track feeds are stale,
     # e.g. a soundbar keeps its last stream's track on an HDMI input.
     stream_active_fn: Callable[[dict], bool] | None = None
+    # False where the device refuses stop while paused, so it isn't offered.
+    stop_when_paused: bool = True
+    # The bound resource when None. A TV binds its power switch instead: its
+    # playback feed comes and goes with the app on screen.
+    playback_href: str | None = None
+    # Read when track_href has no title (a TV's audio track under its video
+    # metadata).
+    fallback_track_href: str | None = None
+    # TV only: the broadcast channel, the program on screen and its schedule,
+    # and the current app's base64 artwork.
+    channel_href: str | None = None
+    content_info_href: str | None = None
+    thumbnail_href: str | None = None
+    # play_media tunes a channel, launches an app or casts media (TV).
+    play_media: bool = False
+    # Turn-on goes through av.AVControl.async_power_on, offered only with a
+    # MAC to wake: the TV's OCF endpoint is gone in standby.
+    wake_on_lan: bool = False
+    # resources -> the commands the device takes now (the TV's); None takes
+    # every command, as the soundbars do.
+    supported_commands_fn: Callable[[dict], frozenset[str]] | None = None
     write_fn: MediaWriteFn = None
     validate_fn: ValidateFn = None
 
@@ -274,6 +331,21 @@ class VacuumDesc(SamsungEntityDescription):
     # Composite vacuum entity: rep_fn gives the HA activity; vacuum.py reads
     # the rest from the bound rep. write_fn takes a (group, value) payload.
     write_fn: WriteFn = None
+
+
+@dataclass(frozen=True, kw_only=True)
+class RemoteDesc(SamsungEntityDescription):
+    # The platform maps each send_command string to a key payload (tv.py's REMOTE).
+    write_fn: WriteFn = None
+    # A key press is a command, not state: nothing to merge into the cache
+    # (the key resource never answers a GET).
+    write_only: bool = True
+
+
+@dataclass(frozen=True, kw_only=True)
+class NotifyDesc(SamsungEntityDescription):
+    # Messages go out through the coordinator (tv.py's notify_body).
+    pass
 
 
 PLATFORM_OF: dict[type, str] = {
@@ -291,4 +363,6 @@ PLATFORM_OF: dict[type, str] = {
     ZoneClimateDesc: "climate",
     MediaPlayerDesc: "media_player",
     VacuumDesc: "vacuum",
+    RemoteDesc: "remote",
+    NotifyDesc: "notify",
 }

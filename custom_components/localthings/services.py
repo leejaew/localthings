@@ -1,5 +1,6 @@
-"""Home Assistant services: `start_cooking` (issue #473), and direct OCF
-resource read/write access (issue #300) -- a raw-transport escape hatch for
+"""Home Assistant services: `start_cooking` (issue #473), the TV's
+`search`, `open_settings`, `set_sleep_timer` and `forget_known_apps`, and
+direct OCF resource read/write access (issue #300) -- a raw-transport escape hatch for
 reverse-engineering a device's write contract, as an ordered multi-write
 sequence with settle delays and a delayed re-read, which the single-write
 options-flow debug panel can't express. Both raw services sit on the same
@@ -16,26 +17,39 @@ through that subdevice, and shapes the response.
 
 from __future__ import annotations
 
+import hashlib
+import re
 from collections.abc import Callable, Coroutine
+from pathlib import Path, PurePosixPath
 from typing import Any, cast
 
 import voluptuous as vol
+from homeassistant.auth.permissions.const import POLICY_CONTROL
 from homeassistant.const import UnitOfTemperature
 from homeassistant.core import HomeAssistant, ServiceCall, ServiceResponse, SupportsResponse
 from homeassistant.exceptions import ServiceValidationError, Unauthorized, UnknownUser
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import entity_registry as er
+from homeassistant.util import dt as dt_util
 from homeassistant.util.unit_conversion import TemperatureConverter
 
 from .const import (
     DOMAIN,
+    SERVICE_FORGET_KNOWN_APPS,
     SERVICE_OBSERVE_RESOURCE,
+    SERVICE_OPEN_SETTINGS,
     SERVICE_READ_RESOURCE,
+    SERVICE_SEARCH,
+    SERVICE_SET_SLEEP_TIMER,
     SERVICE_START_COOKING,
     SERVICE_WRITE_RESOURCE,
 )
 from .coordinator import LocalThingsCoordinator, normalize_href, split_href_query
+from .entity import entity_unique_id
 from .registry.capabilities import cook
+from .registry.capabilities import tv as tv_caps
+from .registry.capabilities.tv import SEARCH_SITES
 from .registry.encode import json_safe
 from .registry.subdevices import MAIN, Subdevice
 
@@ -50,6 +64,8 @@ ATTR_DEVICE_ID = "device_id"
 ATTR_MODE = "mode"
 ATTR_TEMPERATURE = "temperature"
 ATTR_DURATION = "duration"
+ATTR_TIMEOUT = "timeout"
+ATTR_SAVE_TO_FILE = "save_to_file"
 
 _WRITE_ITEM_SCHEMA = vol.Schema(
     {
@@ -85,6 +101,11 @@ _READ_RESOURCE_SCHEMA = vol.Schema(
     {
         **cv.TARGET_SERVICE_FIELDS,
         vol.Optional(ATTR_HREF): str,
+        vol.Optional(ATTR_TIMEOUT): vol.All(
+            vol.Coerce(float),
+            vol.Range(min=1.0, max=LocalThingsCoordinator.RAW_READ_TIMEOUT_MAX_S),
+        ),
+        vol.Optional(ATTR_SAVE_TO_FILE, default=False): cv.boolean,
     }
 )
 
@@ -103,6 +124,35 @@ _START_COOKING_SCHEMA = vol.Schema(
         vol.Optional(ATTR_MODE): cv.string,
         vol.Optional(ATTR_TEMPERATURE): vol.Coerce(float),
         vol.Optional(ATTR_DURATION): cv.positive_time_period,
+    }
+)
+
+
+_FORGET_KNOWN_APPS_SCHEMA = vol.Schema({**cv.TARGET_SERVICE_FIELDS})
+
+ATTR_QUERY = "query"
+ATTR_SITE = "site"
+ATTR_PAGE = "page"
+ATTR_MINUTES = "minutes"
+# Any page id goes through: the list in services.yaml is the firmware's, and
+# models differ.
+_OPEN_SETTINGS_SCHEMA = vol.Schema(
+    {
+        **cv.TARGET_SERVICE_FIELDS,
+        vol.Required(ATTR_PAGE): vol.All(cv.string, vol.Strip, vol.Length(min=1)),
+    }
+)
+_SET_SLEEP_TIMER_SCHEMA = vol.Schema(
+    {
+        **cv.TARGET_SERVICE_FIELDS,
+        vol.Required(ATTR_MINUTES): vol.All(vol.Coerce(int), vol.Range(min=0, max=240)),
+    }
+)
+_SEARCH_SCHEMA = vol.Schema(
+    {
+        **cv.TARGET_SERVICE_FIELDS,
+        vol.Required(ATTR_QUERY): vol.All(cv.string, vol.Strip, vol.Length(min=1)),
+        vol.Optional(ATTR_SITE, default="youtube"): vol.In(list(SEARCH_SITES)),
     }
 )
 
@@ -224,7 +274,20 @@ async def _async_read_resource(hass: HomeAssistant, call: ServiceCall) -> Servic
     # Same normalize-before-translate order as the write path above.
     canonical = normalize_href(path)
     actual_href = subdevice.to_actual(canonical)
-    code, rep, body = await coordinator.async_raw_read(actual_href, query)
+    code, rep, body = await coordinator.async_raw_read(
+        actual_href,
+        query,
+        call.data.get(ATTR_TIMEOUT, LocalThingsCoordinator.RAW_READ_TIMEOUT_S),
+    )
+    saved: list[str] = []
+    if call.data[ATTR_SAVE_TO_FILE]:
+        folder = Path(hass.config.path(DOWNLOADS_DIR, _download_folder(canonical)))
+        saved_body, saved = await hass.async_add_executor_job(
+            save_blobs, folder, body if body is not None else rep
+        )
+        if isinstance(saved_body, dict):
+            rep = saved_body
+        body = saved_body
     read_result: dict[str, Any] = {
         "href": canonical,
         "actual_href": actual_href,
@@ -241,7 +304,69 @@ async def _async_read_resource(hass: HomeAssistant, call: ServiceCall) -> Servic
     # duplicating every rep in every response.
     if body is not None and not isinstance(body, dict):
         read_result["body"] = body
+    if call.data[ATTR_SAVE_TO_FILE]:
+        read_result["saved_files"] = saved
     return cast(ServiceResponse, json_safe(read_result))
+
+
+# read_resource's save_to_file folder, under the Home Assistant config
+# directory: a file transfer (the POWERbot's map, #659) is too large to paste
+# from a service response.
+DOWNLOADS_DIR = "localthings_downloads"
+_UNSAFE = re.compile(r"[^A-Za-z0-9._-]+")
+
+
+def _download_folder(href: str) -> str:
+    stamp = dt_util.utcnow().strftime("%Y%m%dT%H%M%SZ")
+    return f"{stamp}_{_UNSAFE.sub('_', href.strip('/')) or 'resource'}"
+
+
+def _safe_name(name: Any, index: int) -> str:
+    """The basename of a device-reported path, reduced to safe characters."""
+    if isinstance(name, str):
+        base = _UNSAFE.sub("_", PurePosixPath(name.replace("\\", "/")).name).lstrip(".")
+        if base:
+            return f"{index}_{base}"
+    return f"{index}_blob.bin"
+
+
+def save_blobs(folder: Path, body: Any) -> tuple[Any, list[str]]:
+    """Write every bytes value in `body` to its own file in `folder`.
+
+    A blob is named after a sibling field ending in `name`
+    (`x.com.samsung.name` on a file transfer), or numbered. Returns `body`
+    with each blob replaced by where it went, its length and its SHA-256,
+    and the paths written. Blocking -- runs in the executor."""
+    written: list[str] = []
+
+    def walk(value: Any) -> Any:
+        if isinstance(value, dict):
+            name = next(
+                (v for k, v in value.items() if isinstance(k, str) and k.endswith("name")),
+                None,
+            )
+            out = {}
+            for key, item in value.items():
+                if isinstance(item, (bytes, bytearray)):
+                    folder.mkdir(parents=True, exist_ok=True)
+                    path = folder / _safe_name(name, len(written))
+                    path.write_bytes(bytes(item))
+                    written.append(str(path))
+                    out[key] = {
+                        "saved_to": str(path),
+                        "len": len(item),
+                        "sha256": hashlib.sha256(item).hexdigest(),
+                    }
+                else:
+                    out[key] = walk(item)
+            return out
+        if isinstance(value, list):
+            return [walk(item) for item in value]
+        if isinstance(value, (bytes, bytearray)):
+            return walk({"blob": value})["blob"]
+        return value
+
+    return walk(body), written
 
 
 async def _async_observe_resource(hass: HomeAssistant, call: ServiceCall) -> ServiceResponse:
@@ -276,8 +401,40 @@ async def _async_observe_resource(hass: HomeAssistant, call: ServiceCall) -> Ser
     return cast(ServiceResponse, json_safe(result))
 
 
+async def _async_check_cooking_permission(
+    hass: HomeAssistant,
+    call: ServiceCall,
+    coordinator: LocalThingsCoordinator,
+    subdevice: Subdevice,
+) -> None:
+    """Apply the same target permission as pressing this cavity's start button."""
+    if not call.context.user_id:
+        return
+    user = await hass.auth.async_get_user(call.context.user_id)
+    if user is None:
+        raise UnknownUser(context=call.context)
+    if not user.is_active:
+        raise Unauthorized(context=call.context)
+    if user.is_admin:
+        return
+    registry = er.async_get(hass)
+    for bound in coordinator.bound:
+        if (
+            bound.subdevice != subdevice
+            or getattr(bound.desc, "cook_param", None) != cook.PARAM_START
+        ):
+            continue
+        unique_id = entity_unique_id(coordinator.device_key, bound)
+        entity_id = registry.async_get_entity_id("button", DOMAIN, unique_id)
+        if entity_id and user.permissions.check_entity(entity_id, POLICY_CONTROL):
+            return
+    # An unrelated entity or another cavity must never grant permission to cook.
+    raise Unauthorized(context=call.context, permission=POLICY_CONTROL)
+
+
 async def _async_start_cooking(hass: HomeAssistant, call: ServiceCall) -> None:
     coordinator, subdevice, _device_id = _resolve_target(hass, call)
+    await _async_check_cooking_permission(hass, call, coordinator, subdevice)
     temperature = call.data.get(ATTR_TEMPERATURE)
     if temperature is not None:
         # Given in Home Assistant's unit, as the setpoint entity shows it;
@@ -295,6 +452,7 @@ async def _async_start_cooking(hass: HomeAssistant, call: ServiceCall) -> None:
         mode=call.data.get(ATTR_MODE),
         temperature=temperature,
         duration=int(duration.total_seconds()) if duration is not None else None,
+        require_idle=True,
     )
 
 
@@ -321,8 +479,8 @@ def _admin_only(
 
 
 def async_setup_services(hass: HomeAssistant) -> None:
-    """Register start_cooking (issue #473), write_resource/read_resource
-    (issue #300) and observe_resource (issue #607).
+    """Register start_cooking (issue #473), the TV services,
+    write_resource/read_resource (issue #300) and observe_resource (issue #607).
 
     Called once from `async_setup`, not per config entry: services are
     process-global, and `hass.services.async_register` on an
@@ -342,6 +500,22 @@ def async_setup_services(hass: HomeAssistant) -> None:
 
     async def _handle_start_cooking(call: ServiceCall) -> None:
         await _async_start_cooking(hass, call)
+
+    async def _handle_search(call: ServiceCall) -> None:
+        coordinator, _subdevice, _device_id = _resolve_target(hass, call)
+        await coordinator.av.async_search(call.data[ATTR_SITE], call.data[ATTR_QUERY])
+
+    async def _handle_open_settings(call: ServiceCall) -> None:
+        coordinator, _subdevice, _device_id = _resolve_target(hass, call)
+        await coordinator.av.async_show_menu(tv_caps.show_menu_body(call.data[ATTR_PAGE]))
+
+    async def _handle_set_sleep_timer(call: ServiceCall) -> None:
+        coordinator, _subdevice, _device_id = _resolve_target(hass, call)
+        await coordinator.av.async_show_menu(tv_caps.sleep_timer_body(call.data[ATTR_MINUTES]))
+
+    async def _handle_forget_known_apps(call: ServiceCall) -> None:
+        coordinator, _subdevice, _device_id = _resolve_target(hass, call)
+        coordinator.forget_known_apps()
 
     # The raw actions are admin-only: a write skips the Remote Control
     # block and every entity check, and a read returns resources entities
@@ -372,4 +546,28 @@ def async_setup_services(hass: HomeAssistant) -> None:
         SERVICE_START_COOKING,
         _handle_start_cooking,
         schema=_START_COOKING_SCHEMA,
+    )
+    hass.services.async_register(
+        DOMAIN,
+        SERVICE_SEARCH,
+        _handle_search,
+        schema=_SEARCH_SCHEMA,
+    )
+    hass.services.async_register(
+        DOMAIN,
+        SERVICE_OPEN_SETTINGS,
+        _handle_open_settings,
+        schema=_OPEN_SETTINGS_SCHEMA,
+    )
+    hass.services.async_register(
+        DOMAIN,
+        SERVICE_SET_SLEEP_TIMER,
+        _handle_set_sleep_timer,
+        schema=_SET_SLEEP_TIMER_SCHEMA,
+    )
+    hass.services.async_register(
+        DOMAIN,
+        SERVICE_FORGET_KNOWN_APPS,
+        _handle_forget_known_apps,
+        schema=_FORGET_KNOWN_APPS_SCHEMA,
     )

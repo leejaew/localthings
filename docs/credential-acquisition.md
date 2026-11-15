@@ -180,11 +180,24 @@ record in your own backup:
 On this unit, the recovered key completed a DTLS handshake and an authenticated
 `GET /oic/sec/acl` returned `2.05 Content`; the owner then added the washer to
 Home Assistant. LocalThings 0.35.0 needed a local config-flow change to offer
-the credential menu after its automatic certificate probe timed out; a stock
-installation may instead return to the IP form. No OCF security write was
+the credential menu after its automatic certificate probe timed out. Setup now
+offers that menu itself, with a retry, when the probe times out (#822). No OCF
+security write was
 made. This proves local credential access for one appliance, not that every
 washer control works or that every SmartThings version stores credentials in
 the same format.
+
+## Samsung AF18DX936WFN AC with rooted Android 13
+
+An owner recovered an `AF18DX936WFN` air conditioner's PSK
+(`R18_BIXBY_FAC_TIME_23K`, MAIN and RAC subdevices) from SmartThings' native
+credential list. Follow-up recovery on SmartThings 1.8.52.23 found the same PSK
+in an encrypted, account-specific `<UUID>.datenc` store omitted by the original
+file scan; the two inspected plaintext SVR stores contained no PSK. Its identity
+was the app's owner UUID, matching the appliance's `devowneruuid` and `rowneruuid`.
+Importing it as **Owner** worked on LocalThings 0.33.0. The
+[hardware report in #435](https://github.com/mbillow/localthings/issues/435#issuecomment-6159673363)
+records the recovery and verification details.
 
 ## References
 

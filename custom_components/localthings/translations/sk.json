@@ -94,9 +94,6 @@
       "paired_hood_power": {
         "name": "Napájanie spárovaného digestora"
       },
-      "periodic_air_sensing": {
-        "name": "Pravidelné meranie kvality vzduchu"
-      },
       "pouring": {
         "name": "Nalievanie"
       },
@@ -187,11 +184,41 @@
       "woofer_connection": {
         "name": "Pripojenie woofera"
       },
+      "bluetooth_speaker": {
+        "name": "Reproduktor Bluetooth"
+      },
+      "ip_control": {
+        "name": "Ovládanie cez IP"
+      },
       "lamp": {
         "name": "Svetlo"
       },
       "energy_saving": {
         "name": "Úspora energie"
+      },
+      "mop_attached": {
+        "name": "Mop nasadený"
+      },
+      "dust_bag_full": {
+        "name": "Vrecko na prach v stanici plné"
+      },
+      "dock_filter": {
+        "name": "Filter stanice"
+      },
+      "motor_filter": {
+        "name": "Filter motora"
+      },
+      "do_not_disturb": {
+        "name": "Nerušiť"
+      },
+      "clean_water_tank": {
+        "name": "Nádrž na čistú vodu"
+      },
+      "dirty_water_tank": {
+        "name": "Nádrž na špinavú vodu"
+      },
+      "station_water_leak": {
+        "name": "Únik vody zo stanice"
       }
     },
     "button": {
@@ -245,6 +272,15 @@
       },
       "pair_bluetooth": {
         "name": "Spárovať Bluetooth"
+      },
+      "screen_off": {
+        "name": "Vypnúť obrazovku"
+      },
+      "empty_dust_bin": {
+        "name": "Vyprázdniť nádobu na prach"
+      },
+      "find_robot": {
+        "name": "Nájsť robota"
       }
     },
     "climate": {
@@ -304,6 +340,9 @@
       },
       "paired_hood_light": {
         "name": "Svetlo spárovaného digestora"
+      },
+      "drum_light": {
+        "name": "Osvetlenie bubna"
       }
     },
     "number": {
@@ -342,6 +381,9 @@
       },
       "sound_volume": {
         "name": "Hlasitosť zvuku"
+      },
+      "speaker_volume": {
+        "name": "Hlasitosť reproduktora"
       },
       "target_humidity": {
         "name": "Požadovaná vlhkosť"
@@ -614,7 +656,13 @@
           "7f": "Časové sušenie",
           "98": "Rýchle sušenie 35",
           "eb": "Jemná bielizeň",
-          "b6": "Syntetika"
+          "b6": "Syntetika",
+          "94": "Uteráky",
+          "a1": "Proti pokrčeniu",
+          "ad": "Košele/blúzky",
+          "ae": "Spodná bielizeň",
+          "af": "Svetre",
+          "b0": "Doplnky"
         }
       },
       "dryer_cycle_table_03": {
@@ -674,7 +722,10 @@
           "35": "Proti pokrčeniu",
           "36": "Prevetranie",
           "3e": "Malá náplň",
-          "2e": "Eko Normálny"
+          "2e": "Eko Normálny",
+          "42": "Osvieženie",
+          "44": "Rýchle sušenie",
+          "47": "Sušenie pre domáce zvieratá"
         }
       },
       "dryer_dry_level": {
@@ -972,6 +1023,9 @@
           "mute": "Stlmené"
         }
       },
+      "sound_tone": {
+        "name": "Zvukový tón"
+      },
       "energy_saving_mode": {
         "name": "Režim úspory energie"
       },
@@ -1018,6 +1072,28 @@
         "name": "Cyklus",
         "state": {
           "01": "Normálny",
+          "11": "Vlna",
+          "19": "Plákanie + odstreďovanie",
+          "1b": "Vyváranie",
+          "1e": "Detské",
+          "1f": "Denné pranie",
+          "2c": "Syntetika",
+          "2f": "Bavlna",
+          "30": "Džínsy",
+          "31": "Tmavá bielizeň",
+          "33": "Eco čistenie bubna",
+          "34": "Super Eco",
+          "35": "Starostlivosť o outdoorové oblečenie",
+          "37": "Starostlivosť o detskú bielizeň",
+          "3a": "Posteľná bielizeň",
+          "3b": "Iba odstreďovanie",
+          "3e": "Optimálne pranie",
+          "3f": "Žehlenie eko bavlna",
+          "41": "Záhradníčenie",
+          "42": "Športové oblečenie",
+          "43": "Dezinfekcia",
+          "47": "Super Speed",
+          "48": "Jemná bielizeň",
           "50": "Sušenie bavlny",
           "51": "Sušenie syntetiky",
           "55": "Biela bielizeň",
@@ -1059,6 +1135,7 @@
           "ab": "Eko pranie v studenej vode",
           "b1": "Samočistenie+",
           "ba": "Vypustenie/odstreďovanie",
+          "bd": "Automatické optimálne pranie",
           "c7": "Eco čistenie bubna",
           "ca": "Prevetranie",
           "d0": "Bavlna",
@@ -1188,7 +1265,14 @@
           "5f": "Iba odstreďovanie",
           "63": "Výkonná para",
           "67": "Parný antialergénny",
-          "68": "Parná objemná bielizeň"
+          "68": "Parná objemná bielizeň",
+          "a1": "Normálny",
+          "a7": "Starostlivosť o výrobok",
+          "a9": "Tide Pod studená",
+          "ad": "AI OptiWash + sušenie",
+          "59": "Nekrčivá bielizeň",
+          "a8": "Časové sušenie",
+          "aa": "Prevetranie"
         }
       },
       "washer_dry_level": {
@@ -1201,7 +1285,12 @@
           "180": "3 h",
           "240": "4 h",
           "none": "Vypnuté",
-          "cupboard": "Do skrine"
+          "cupboard": "Do skrine",
+          "damp": "Vlhké",
+          "less": "Menej",
+          "normal": "Normálne",
+          "more": "Viac",
+          "very": "Veľmi"
         }
       },
       "zone_mode": {
@@ -1251,6 +1340,13 @@
           "smart": "Inteligentný",
           "high": "Vysoký",
           "low": "Nízky"
+        }
+      },
+      "always_on_display_mode": {
+        "name": "Režim vždy zapnutého displeja",
+        "state": {
+          "always": "Vždy",
+          "scheduled": "Podľa plánu"
         }
       },
       "ventilation_mode": {
@@ -1346,6 +1442,14 @@
           "ita": "taliančina"
         }
       },
+      "tv_remote": {
+        "name": "Diaľkový ovládač TV",
+        "state": {
+          "tv_remote_all": "Všetky ovládače",
+          "tv_remote_off": "Vypnuté",
+          "tv_remote_samsung": "Iba ovládače Samsung"
+        }
+      },
       "equalizer": {
         "name": "Ekvalizér",
         "state": {
@@ -1356,6 +1460,17 @@
           "custom": "Vlastný"
         }
       },
+      "dryer_temperature": {
+        "name": "Teplota",
+        "state": {
+          "none": "Žiadna",
+          "extra_low": "Extra nízke",
+          "low": "Nízka",
+          "medium_low": "Stredná / Nízka",
+          "medium": "Stredná",
+          "high": "Vysoká"
+        }
+      },
       "cleaning_mode": {
         "name": "Režim upratovania",
         "state": {
@@ -1364,7 +1479,10 @@
           "repeat": "Opakovať",
           "manual": "Ručný",
           "stop": "Stop",
-          "map": "Mapa"
+          "map": "Mapa",
+          "spot": "Bodový",
+          "area": "Miestnosť",
+          "object": "Objekt"
         }
       },
       "robot_sound": {
@@ -1372,7 +1490,56 @@
         "state": {
           "soundeffect": "Zvukové efekty",
           "mute": "Stlmené",
-          "voice": "Hlas"
+          "voice": "Hlas",
+          "voicefeed": "Hlas"
+        }
+      },
+      "smart_ventilate_mode": {
+        "name": "Režim inteligentného vetrania",
+        "state": {
+          "sensing": "Iba detekcia",
+          "alarm": "Dostávať upozornenia",
+          "airpurify": "Tiché vetranie"
+        }
+      },
+      "picture_mode": {
+        "name": "Režim obrazu"
+      },
+      "rear_speaker_position": {
+        "name": "Umiestnenie zadných reproduktorov",
+        "state": {
+          "front": "Vpredu",
+          "rear": "Vzadu"
+        }
+      },
+      "open_app": {
+        "name": "Otvoriť aplikáciu"
+      },
+      "cleaning_method": {
+        "name": "Spôsob upratovania",
+        "state": {
+          "vacuum": "Vysávanie",
+          "mop": "Mopovanie",
+          "atonce": "Vysávanie a mopovanie",
+          "mopaftervacuum": "Mopovanie po vysávaní"
+        }
+      },
+      "water_level": {
+        "name": "Množstvo vody",
+        "state": {
+          "veryhigh": "Veľmi vysoké",
+          "high": "Vysoké",
+          "med": "Stredné",
+          "low": "Nízke",
+          "verylow": "Veľmi nízke"
+        }
+      },
+      "cleaning_option": {
+        "name": "Možnosť upratovania",
+        "state": {
+          "daily": "Denné",
+          "intensive": "Intenzívne",
+          "light": "Ľahké"
         }
       }
     },
@@ -1412,9 +1579,6 @@
       },
       "auto_ventilation_action": {
         "name": "Akcia automatického vetrania"
-      },
-      "automatic_ventilation_state": {
-        "name": "Stav automatického vetrania"
       },
       "battery": {
         "name": "Batéria"
@@ -1566,6 +1730,12 @@
       },
       "drum_clean_last_cleaned": {
         "name": "Posledné čistenie bubna"
+      },
+      "combo_dry_clean_cycles_remaining": {
+        "name": "Čistenie bubna (sušenie) o"
+      },
+      "combo_dry_clean_last_cleaned": {
+        "name": "Posledné čistenie bubna (sušenie)"
       },
       "quick_wash": {
         "name": "Rýchle pranie",
@@ -1764,6 +1934,15 @@
       "progress_percentage": {
         "name": "Priebeh v percentách"
       },
+      "wash_progress_percentage": {
+        "name": "Priebeh prania v percentách"
+      },
+      "dry_progress_percentage": {
+        "name": "Priebeh sušenia v percentách"
+      },
+      "wash_remaining_minutes": {
+        "name": "Zostávajúci čas prania"
+      },
       "selfcheck_error": {
         "name": "Chyba vlastnej kontroly"
       },
@@ -1831,6 +2010,57 @@
       },
       "zone_temperature": {
         "name": "Teplota zóny"
+      },
+      "zone_water_law_offset": {
+        "name": "Posun ekvitermickej krivky zóny"
+      },
+      "zone2_water_law_offset": {
+        "name": "Posun ekvitermickej krivky zóny 2"
+      },
+      "fsv_outdoor_curve_cold_point": {
+        "name": "Ekvitermická krivka, studený bod vonkajšej teploty (FSV 2011)"
+      },
+      "fsv_outdoor_curve_warm_point": {
+        "name": "Ekvitermická krivka, teplý bod vonkajšej teploty (FSV 2012)"
+      },
+      "fsv_water_law_1_cold_target": {
+        "name": "Ekvitermická krivka 1, cieľová teplota pri nízkej vonkajšej teplote (FSV 2021)"
+      },
+      "fsv_water_law_1_warm_target": {
+        "name": "Ekvitermická krivka 1, cieľová teplota pri vysokej vonkajšej teplote (FSV 2022)"
+      },
+      "fsv_water_law_2_cold_target": {
+        "name": "Ekvitermická krivka 2, cieľová teplota pri nízkej vonkajšej teplote (FSV 2031)"
+      },
+      "fsv_water_law_2_warm_target": {
+        "name": "Ekvitermická krivka 2, cieľová teplota pri vysokej vonkajšej teplote (FSV 2032)"
+      },
+      "fsv_dhw_temperature_maximum": {
+        "name": "Horná hranica cieľovej teploty teplej vody (FSV 1051)"
+      },
+      "fsv_dhw_temperature_minimum": {
+        "name": "Dolná hranica cieľovej teploty teplej vody (FSV 1052)"
+      },
+      "fsv_dhw_application_mode": {
+        "name": "Režim ohrevu teplej vody (FSV 3011)"
+      },
+      "fsv_heating_dhw_priority": {
+        "name": "Priorita vykurovania a teplej vody (FSV 4011)"
+      },
+      "fsv_heating_dhw_changeover_temperature": {
+        "name": "Vonkajšia teplota prepnutia priority vykurovanie/teplá voda (FSV 4012)"
+      },
+      "fsv_backup_heater_application": {
+        "name": "Použitie záložného vykurovacieho telesa (FSV 4021)"
+      },
+      "fsv_heating_outlet_temperature_maximum": {
+        "name": "Horná hranica teploty výstupnej vody pre vykurovanie (FSV 1031)"
+      },
+      "fsv_heating_outlet_temperature_minimum": {
+        "name": "Dolná hranica teploty výstupnej vody pre vykurovanie (FSV 1032)"
+      },
+      "fsv_zone_control_application": {
+        "name": "Riadenie zón (FSV 4061)"
       },
       "zone2_temperature": {
         "name": "Teplota zóny 2"
@@ -1940,6 +2170,36 @@
       "heat_generated_kwh": {
         "name": "Vyrobené teplo"
       },
+      "cycle_flow_temperature": {
+        "name": "Teplota výstupnej vody (cyklus)"
+      },
+      "cycle_return_temperature": {
+        "name": "Teplota vratnej vody (cyklus)"
+      },
+      "cycle_flow_rate": {
+        "name": "Prietok (cyklus)"
+      },
+      "cycle_pump_speed": {
+        "name": "Otáčky čerpadla (cyklus)"
+      },
+      "compressor_frequency": {
+        "name": "Frekvencia kompresora"
+      },
+      "compressor_target_frequency": {
+        "name": "Cieľová frekvencia kompresora"
+      },
+      "discharge_temperature": {
+        "name": "Teplota na výtlaku"
+      },
+      "evaporator_saturation_temperature": {
+        "name": "Saturačná teplota výparníka"
+      },
+      "suction_temperature": {
+        "name": "Teplota nasávania"
+      },
+      "cycle_updated": {
+        "name": "Údaje cyklu aktualizované"
+      },
       "three_way_valve": {
         "name": "Trojcestný ventil"
       },
@@ -1948,6 +2208,9 @@
       },
       "installation_type": {
         "name": "Typ inštalácie"
+      },
+      "audio_codec": {
+        "name": "Zvukový kodek"
       },
       "micom_version": {
         "name": "Verzia micom"
@@ -1979,7 +2242,8 @@
           "pause": "Pozastavené",
           "alarm": "Alarm",
           "reserve": "Naplánované",
-          "poweroff": "Vypnuté"
+          "poweroff": "Vypnuté",
+          "charged": "Nabité"
         }
       },
       "robot_movement": {
@@ -1987,6 +2251,75 @@
       },
       "oven_setpoint": {
         "name": "Požadovaná teplota"
+      },
+      "air_sensing_interval": {
+        "name": "Interval merania vzduchu"
+      },
+      "range_hood_pm10_air_quality": {
+        "name": "PM10 kvalita vzduchu",
+        "state": {
+          "good": "Dobrá",
+          "normal": "Normálna",
+          "poor": "Zlá",
+          "very_poor": "Veľmi zlá",
+          "processing": "Spracovanie"
+        }
+      },
+      "range_hood_pm25_air_quality": {
+        "name": "PM2.5 kvalita vzduchu",
+        "state": {
+          "good": "Dobrá",
+          "normal": "Normálna",
+          "poor": "Zlá",
+          "very_poor": "Veľmi zlá",
+          "processing": "Spracovanie"
+        }
+      },
+      "range_hood_pm1_air_quality": {
+        "name": "PM1.0 kvalita vzduchu",
+        "state": {
+          "good": "Dobrá",
+          "normal": "Normálna",
+          "poor": "Zlá",
+          "very_poor": "Veľmi zlá",
+          "processing": "Spracovanie"
+        }
+      },
+      "range_hood_last_air_sensing_level": {
+        "name": "Posledná nameraná úroveň kvality vzduchu",
+        "state": {
+          "good": "Dobrá",
+          "normal": "Normálna",
+          "poor": "Zlá",
+          "very_poor": "Veľmi zlá"
+        }
+      },
+      "range_hood_clean_level": {
+        "name": "Úroveň čistoty",
+        "state": {
+          "good": "Dobrá",
+          "normal": "Normálna",
+          "poor": "Zlá",
+          "very_poor": "Veľmi zlá"
+        }
+      },
+      "illuminance": {
+        "name": "Osvetlenie"
+      },
+      "channel": {
+        "name": "Kanál"
+      },
+      "now_showing": {
+        "name": "Práve vysielané"
+      },
+      "cast_session": {
+        "name": "Relácia castingu"
+      },
+      "cast_item": {
+        "name": "Položka castingu"
+      },
+      "battery_health": {
+        "name": "Stav batérie"
       }
     },
     "switch": {
@@ -2209,6 +2542,12 @@
       "indicator_light": {
         "name": "Kontrolka"
       },
+      "always_on_display": {
+        "name": "Vždy zapnutý displej"
+      },
+      "bluetooth_discoverable": {
+        "name": "Viditeľnosť Bluetooth"
+      },
       "windfree": {
         "name": "Režim Wind-Free"
       },
@@ -2277,6 +2616,18 @@
       },
       "repeated_cleaning": {
         "name": "Opakovať upratovanie"
+      },
+      "buzzer_sound": {
+        "name": "Zvuk bzučiaka"
+      },
+      "smart_ventilate": {
+        "name": "Inteligentné vetranie"
+      },
+      "hood_do_not_disturb": {
+        "name": "Nerušiť"
+      },
+      "robot_lighting": {
+        "name": "Osvetlenie"
       }
     },
     "time": {
@@ -2310,8 +2661,20 @@
       "sensing_skip_end": {
         "name": "Koniec vynechania merania AI Purify"
       },
+      "always_on_display_start": {
+        "name": "Začiatok vždy zapnutého displeja"
+      },
+      "always_on_display_end": {
+        "name": "Koniec vždy zapnutého displeja"
+      },
       "sensing_skip_start": {
         "name": "Začiatok vynechania merania AI Purify"
+      },
+      "hood_do_not_disturb_start": {
+        "name": "Začiatok režimu Nerušiť"
+      },
+      "hood_do_not_disturb_end": {
+        "name": "Koniec režimu Nerušiť"
       }
     },
     "water_heater": {
@@ -2327,10 +2690,21 @@
               "normal": "Normálny",
               "turbo": "Turbo",
               "quiet": "Tichý",
-              "extra_quiet": "Veľmi tichý"
+              "extra_quiet": "Veľmi tichý",
+              "ultra_quiet": "Ultra tichý"
             }
           }
         }
+      }
+    },
+    "remote": {
+      "remote": {
+        "name": "Diaľkové ovládanie"
+      }
+    },
+    "notify": {
+      "notification": {
+        "name": "Oznámenia"
       }
     }
   },
@@ -2369,6 +2743,16 @@
         "title": "Tento spotrebič pravdepodobne používa vopred zdieľaný kľúč",
         "description": "{host} odmietol automatický certifikát a jeho nešifrované bezpečnostné metadáta uvádzajú, že sa namiesto toho overuje vopred zdieľaným kľúčom (PSK). LocalThings tento kľúč nedokáže získať sám, preto importujte kľúč, ktorý už máte. Ponúka sa aj certifikát CA AC14K_M, ale zatiaľ nebol nahlásený žiadny spotrebič, ktorý by odmietol automatický certifikát a tento prijal.\n\nSpotrebiče s vopred zdieľaným kľúčom sa ešte len snažíme pochopiť a pravdepodobne s nimi narazíte na problémy. Náš plán, doterajšie zistenia a miesto na spätnú väzbu nájdete v [issue #435]({issue_url}).",
         "menu_options": {
+          "psk_owner": "Importovať vopred zdieľaný kľúč vlastníka",
+          "psk_peer": "Importovať vopred zdieľaný kľúč peera",
+          "fallback_ca": "Skúsiť certifikát CA AC14K_M"
+        }
+      },
+      "credential_timeout": {
+        "title": "Spotrebič prestal odpovedať",
+        "description": "{host} odpovedal na porte svojho lokálneho API, ale počas výmeny certifikátu prestal reagovať, a to aj po opakovanom pokuse. Niektoré spotrebiče sa tak správajú, keď namiesto certifikátu používajú vopred zdieľaný kľúč (PSK). Iné ešte držia staré spojenie, ktoré uvoľní reštart spotrebiča. Ak ste ho práve reštartovali, skúste to znova. Inak importujte vopred zdieľaný kľúč, ktorý už máte: LocalThings ho nedokáže získať sám. Ponúka sa aj certifikát CA AC14K_M, ale zatiaľ nebol nahlásený žiadny spotrebič, ktorý by ignoroval automatický certifikát a tento prijal.\n\nSpotrebiče s vopred zdieľaným kľúčom sa ešte len snažíme pochopiť a pravdepodobne s nimi narazíte na problémy. Náš plán, doterajšie zistenia a miesto na spätnú väzbu nájdete v [issue #435]({issue_url}).",
+        "menu_options": {
+          "retry_probe": "Skúsiť znova",
           "psk_owner": "Importovať vopred zdieľaný kľúč vlastníka",
           "psk_peer": "Importovať vopred zdieľaný kľúč peera",
           "fallback_ca": "Skúsiť certifikát CA AC14K_M"
@@ -2450,6 +2834,7 @@
       "no_response": "Z tejto IP adresy neprišla žiadna odpoveď – neodpovedal žiadny port v rozsahu lokálneho API spotrebiča (UDP 49152-49160). Skontrolujte, či je IP adresa správna, či je spotrebič zapnutý a v rovnakej sieti ako Home Assistant a či firewall neblokuje komunikáciu UDP smerujúcu k nemu.",
       "ports_closed": "Táto IP adresa je dostupná, ale aktívne odmietla spojenie na každom porte v rozsahu lokálneho API (UDP 49152-49160) a na kanáli zisťovania vôbec neodpovedala. Najskôr nejde o spotrebič Samsung, alebo ide o taký, ktorý nemá zapnuté lokálne API.",
       "no_dtls_server": "Porty v rozsahu lokálneho API sú na tejto adrese dostupné, ale žiadny neodpovedal na nadviazanie spojenia DTLS. Skontrolujte, či IP adresa patrí spotrebiču a nie inému zariadeniu vo vašej sieti.",
+      "exec_memory_denied": "Home Assistant nemá povolené vytvárať spustiteľnú pamäť, ktorú knižnica DTLS potrebuje pre svoje spätné volania, takže handshake sa nemohol ani začať. Ide o nastavenie hostiteľa Home Assistant, nie o problém spotrebiča. Pri inštalácii so systemd nastavte v servisnej jednotke Home Assistant MemoryDenyWriteExecute=no (alebo riadok odstráňte) a službu reštartujte. To isté môže spôsobiť nastavenie deny_execmem v SELinuxe alebo zabezpečené jadrá. Presná chyba je v logu Home Assistant.",
       "appliance_no_dtls": "Na tejto adrese je spotrebič Samsung — cez nešifrovaný kanál zisťovania sa predstavil ako {model} a ako svoj zabezpečený port uviedol {port} — no nadviazanie spojenia DTLS na ňom nikdy nedokončil. Adresa teda nie je problém. Skontrolujte, či spotrebič nemá na paneli vypnuté diaľkové ovládanie alebo podobné nastavenie, a presnú príčinu zlyhania nájdete v protokole Home Assistant.",
       "non_appliance_stack": "Na tejto IP adrese niečo odpovedalo, ale ohlásilo sa ako služba OCF, ktorá nie je spotrebičom. Niektoré spotrebiče Samsung ju prevádzkujú popri svojej vlastnej a LocalThings nájde spotrebič za ňou len vtedy, keď je Home Assistant v rovnakom segmente siete. Umiestnite Home Assistant a spotrebič do rovnakej podsiete a VLAN a skúste to znova.",
       "multiple_appliances": "Na tejto IP adrese odpovedá viac ako jeden spotrebič Samsung a LocalThings medzi nimi zatiaľ nevie vybrať. Nahláste to prosím v systéme hlásení chýb LocalThings a priložte log Home Assistanta.",
@@ -2494,12 +2879,13 @@
           "subdevices": "Podriadené zariadenia",
           "cloud_courses": "Stiahnuté cykly",
           "forget_learned_modes": "Zabudnúť zapamätané režimy",
-          "debug_write": "Ladenie: zápis do prostriedku"
+          "debug_write": "Ladenie: zápis do prostriedku",
+          "camera_casting": "Prenos kamier"
         }
       },
       "settings": {
         "title": "Nastavenia zariadenia",
-        "description": "Niektoré zariadenia prijímajú určité zápisy (napr. predvolené dávkovanie pracieho prostriedku alebo aviváže v práčke), aj keď hlásia vypnuté diaľkové ovládanie. LocalThings v predvolenom nastavení zablokuje každý zápis so zrozumiteľnou chybou, keď zariadenie hlási vypnuté diaľkové ovládanie, aby ho zariadenie neodmietlo bez upozornenia. Túto možnosť zapnite iba vtedy, ak ste overili, že zápisy na tomto zariadení skutočne fungujú aj s vypnutým diaľkovým ovládaním – inak zrozumiteľnú chybu nahradíte zlyhaním bez upozornenia.\n\nOdhadovaný čas dokončenia sa prepočítava z odhadu zostávajúceho času zariadenia pri každom načítaní údajov. Medzi aktualizáciami sa môže posunúť alebo upraviť o minútu či dve. Zvýšením minimálnej zmeny nižšie ponecháte senzor na poslednej nahlásenej hodnote, kým sa odhad neposunie aspoň o daný počet minút, čím obmedzíte množstvo záznamov v histórii a denníku. Nastavením na 0 sa nahlási každá vypočítaná zmena.\n\nNiektoré modely hlásia režim, ktorý nikdy neuvádzajú medzi podporovanými – napríklad klimatizácia v tichom režime (Quiet), ktorá ponúka iba Off/Sleep/Speed. LocalThings si každý takýto zistený režim zapamätá a naďalej ho ponúka, takže ho možno vybrať, keď v ňom zariadenie aspoň raz bolo. Vypnutím tejto možnosti sa budú ponúkať iba režimy, ktoré zariadenie uvádza ako podporované. Už zapamätané režimy vymažete pomocou možnosti „Zabudnúť zapamätané režimy“ na predchádzajúcej obrazovke.\n\nPri zariadení na pranie alebo sušenie s cyklami stiahnutými z cloudu sa tu zobrazí pripomenutie, keď nahlási cyklus, ktorý Home Assistant ešte nedokáže ponúknuť. Niektoré zariadenia ho nahlásia, aj keď ste obrazovku „Stiahnuté cykly“ v aplikácii SmartThings nikdy neotvorili. Vypnutím tejto možnosti zastavíte pripomenutie a skryjete už pomenované stiahnuté cykly zo zoznamu cyklov. Nič z nastaveného sa nestratí a po opätovnom zapnutí sa všetko znova zobrazí.",
+        "description": "Niektoré zariadenia prijímajú určité zápisy (napr. predvolené dávkovanie pracieho prostriedku alebo aviváže v práčke), aj keď hlásia vypnuté diaľkové ovládanie. LocalThings v predvolenom nastavení zablokuje každý zápis so zrozumiteľnou chybou, keď zariadenie hlási vypnuté diaľkové ovládanie, aby ho zariadenie neodmietlo bez upozornenia. Túto možnosť zapnite iba vtedy, ak ste overili, že zápisy na tomto zariadení skutočne fungujú aj s vypnutým diaľkovým ovládaním – inak zrozumiteľnú chybu nahradíte zlyhaním bez upozornenia.\n\nOdhadovaný čas dokončenia sa počíta od okamihu, keď príde každý údaj o zostávajúcom čase: na sekundy pri zariadeniach, ktoré sekundy hlásia, inak na najbližšiu minútu. Úprava menšia ako približne 5 % zostávajúceho času sa nezobrazí, najviac však do minimálnej zmeny nižšie, čím obmedzíte množstvo záznamov v histórii a denníku. Nastavením na 0 sa nahlási každá zmena.\n\nNiektoré modely hlásia režim, ktorý nikdy neuvádzajú medzi podporovanými – napríklad klimatizácia v tichom režime (Quiet), ktorá ponúka iba Off/Sleep/Speed. LocalThings si každý takýto zistený režim zapamätá a naďalej ho ponúka, takže ho možno vybrať, keď v ňom zariadenie aspoň raz bolo. Vypnutím tejto možnosti sa budú ponúkať iba režimy, ktoré zariadenie uvádza ako podporované. Už zapamätané režimy vymažete pomocou možnosti „Zabudnúť zapamätané režimy“ na predchádzajúcej obrazovke.\n\nPri zariadení na pranie alebo sušenie s cyklami stiahnutými z cloudu sa tu zobrazí pripomenutie, keď nahlási cyklus, ktorý Home Assistant ešte nedokáže ponúknuť. Niektoré zariadenia ho nahlásia, aj keď ste obrazovku „Stiahnuté cykly“ v aplikácii SmartThings nikdy neotvorili. Vypnutím tejto možnosti zastavíte pripomenutie a skryjete už pomenované stiahnuté cykly zo zoznamu cyklov. Nič z nastaveného sa nestratí a po opätovnom zapnutí sa všetko znova zobrazí.",
         "data": {
           "bypass_remote_control_lock": "Povoliť zápisy, aj keď zariadenie hlási vypnuté diaľkové ovládanie",
           "finish_time_hysteresis_minutes": "Odhadovaný koniec – minimálna zmena (minúty)",
@@ -2542,7 +2928,7 @@
       },
       "cloud_manual": {
         "title": "Stiahnuté cykly",
-        "description": "Spotrebič hlási tento počet stiahnutých cyklov: {total}; doteraz sa ich zistilo: {found}.\n\nNastavenia stiahnutého cyklu sú viditeľné iba vtedy, keď je daný cyklus načítaný, a spotrebič nikdy nehlási ich názvy. Ak chcete pridať chýbajúce cykly ({pending}), otvorte tento spotrebič v aplikácii SmartThings (nie na samotnom spotrebiči) a ťuknite na „Stiahnuté cykly“ – samostatný riadok odlišný od „Cyklus“, ktorý je nižšie na obrazovke a ktorý je pre tento postup dôležitý. Postupne vyberte každý stiahnutý program a pri každom počkajte niekoľko sekúnd, aby ho LocalThings zaznamenal. Potom sa vráťte sem.\n\nKaždému zadajte názov, ktorý chcete vidieť v Home Assistant. Ak názov necháte prázdny, daný cyklus sa v zozname cyklov nezobrazí. Názvy musia byť jedinečné.\n\nStiahnutý program je program tohto spotrebiča, ktorý spúšťa stiahnutý cyklus. Zisťuje sa automaticky, ale pred použitím ho tu potvrďte: výberom stiahnutého cyklu sa do spotrebiča zapíše tento kód programu.",
+        "description": "Spotrebič má najmenej tento počet stiahnutých cyklov: {total}; doteraz sa ich zistilo: {found}.\n\nNastavenia stiahnutého cyklu sú viditeľné iba vtedy, keď je daný cyklus načítaný, a spotrebič nikdy nehlási ich názvy. Ak chcete pridať chýbajúce cykly ({pending}), otvorte tento spotrebič v aplikácii SmartThings (nie na samotnom spotrebiči) a ťuknite na „Stiahnuté cykly“ – samostatný riadok odlišný od „Cyklus“, ktorý je nižšie na obrazovke a ktorý je pre tento postup dôležitý. Postupne vyberte každý stiahnutý program a pri každom počkajte niekoľko sekúnd, aby ho LocalThings zaznamenal. Potom sa vráťte sem.\n\nKaždému zadajte názov, ktorý chcete vidieť v Home Assistant. Ak názov necháte prázdny, daný cyklus sa v zozname cyklov nezobrazí. Názvy musia byť jedinečné.\n\nStiahnutý program je program tohto spotrebiča, ktorý spúšťa stiahnutý cyklus. Zisťuje sa automaticky, ale pred použitím ho tu potvrďte: výberom stiahnutého cyklu sa do spotrebiča zapíše tento kód programu.",
         "data": {
           "download_course": "Kód programu „Stiahnutý program“"
         }
@@ -2573,6 +2959,13 @@
           "cloud_guided": "Počkať znova",
           "cloud_finish": "Dokončiť"
         }
+      },
+      "camera_casting": {
+        "title": "Prenos kamier s nízkou latenciou",
+        "description": "Keď na tento televízor prenášate kameru, Home Assistant ju bežne poskytuje cez vlastný stream, ktorý si televízor ukladá do vyrovnávacej pamäte asi 20 sekúnd. Po zapnutí spustí LocalThings ffmpeg a kameru poskytne sám, čím sa oneskorenie skráti na niekoľko sekúnd.\n\nTým sa na webový server Home Assistantu pridajú dva koncové body. Televízor otvára stream náhodným jednorazovým odkazom, pretože sa nemôže prihlásiť. Nechajte vypnuté, ak neprenášate kamery a oneskorenie vám neprekáža: nič iné v televízore to nepotrebuje. Vyžaduje ffmpeg a adresu Home Assistantu dostupnú z televízora.",
+        "data": {
+          "camera_casting": "Prenášať kamery cez LocalThings (ffmpeg)"
+        }
       }
     },
     "error": {
@@ -2596,6 +2989,10 @@
     "cloud_courses_undiscovered": {
       "title": "Stiahnuté cykly nie sú nastavené pre {device_name}",
       "description": "{device_name} má {pending} z {total} stiahnutých cyklov, ktoré Home Assistant zatiaľ nedokáže ponúknuť. Stiahnutý cyklus možno použiť až po tom, čo bol na spotrebiči zaznamenaný ako načítaný – na obrazovke „Stiahnuté cykly“ v aplikácii SmartThings, nie na obrazovke „Cyklus“ – a dostal názov.\n\nAk ich chcete nastaviť, prejdite do Nastavenia > Zariadenia a služby > LocalThings > {device_name} > Konfigurovať > Stiahnuté cykly a postupujte podľa pokynov.\n\nAk stiahnuté cykly nepoužívate, prejdite do Konfigurovať > Nastavenia zariadenia a vypnite možnosť „Ponúkať stiahnuté cykly“, čím toto pripomenutie natrvalo vypnete."
+    },
+    "removed_entities": {
+      "title": "Z {device_name} boli odstránené entity",
+      "description": "LocalThings odstránil z {device_name} entity, ktoré už neposkytuje, zvyčajne preto, že sa v tejto verzii zmenili na iný druh entity. Tieto automatizácie a skripty na ne stále odkazujú:\n\n{entities}\n\nUpravte ich tak, aby používali náhradné entity na stránke zariadenia, a potom toto upozornenie zavrite."
     }
   },
   "exceptions": {
@@ -2727,6 +3124,54 @@
     },
     "media_option_not_supported": {
       "message": "Zariadenie túto možnosť práve neponúka."
+    },
+    "unknown_remote_command": {
+      "message": "Neznámy príkaz diaľkového ovládania: {command}"
+    },
+    "remote_power_unavailable": {
+      "message": "Ovládanie napájania nie je pre toto zariadenie k dispozícii"
+    },
+    "wake_on_lan_failed": {
+      "message": "Nepodarilo sa odoslať Wake-on-LAN do televízora: {error}"
+    },
+    "unsupported_media_type": {
+      "message": "Tento televízor vie prehrať kanály, aplikácie, obrázky, video súbory, HLS streamy, kamery a videá z YouTube (channel, app, image, video, url alebo youtube), nie {media_type}."
+    },
+    "invalid_channel_number": {
+      "message": "{channel} nie je číslo kanála; použite číslice, napr. 5 alebo 5-1."
+    },
+    "invalid_app_id": {
+      "message": "Zadajte ID aplikácie (napr. kIciSQlYEM.plex) alebo názov aplikácie, ktorú televízor už spustil."
+    },
+    "search_unsupported": {
+      "message": "Toto zariadenie nevie vyhľadávať; vedia to len televízory Samsung."
+    },
+    "invalid_media_url": {
+      "message": "{url} nie je http(s) odkaz na obrázok, video súbor ani HLS stream, ani odkaz či ID videa z YouTube (MJPEG streamy a DASH manifesty .mpd nie sú podporované)."
+    },
+    "cast_unsupported": {
+      "message": "Toto zariadenie nevie zobraziť obrázky ani prehrať videá z YouTube."
+    },
+    "notify_unsupported": {
+      "message": "Toto zariadenie nevie zobrazovať oznámenia."
+    },
+    "notify_message_empty": {
+      "message": "Text oznámenia je prázdny."
+    },
+    "settings_unsupported": {
+      "message": "Toto zariadenie nemá ovládateľnú ponuku nastavení televízora."
+    },
+    "apps_unsupported": {
+      "message": "Toto zariadenie si neuchováva zoznam aplikácií televízora."
+    },
+    "invalid_ask": {
+      "message": "extra.ask musí byť true alebo false, nie {value}."
+    },
+    "camera_timeout": {
+      "message": "Kamera {camera} odpovedala príliš dlho."
+    },
+    "wake_on_lan_no_route": {
+      "message": "Wake-on-LAN sa nepodarilo odoslať do televízora: žiadna sieťová cesta k {targets}."
     }
   },
   "selector": {
@@ -2810,6 +3255,14 @@
         "href": {
           "name": "href prostriedku",
           "description": "Kanonický href prostriedku na čítanie (napr. /mode/vs/0). Za ? pridajte dopyt, ktorý sa odošle s GET, napr. /device/1?if=oic.if.b, s & medzi parametrami. Vynechajte ho a namiesto živého GET získate uloženú snímku všetkých sledovaných prostriedkov."
+        },
+        "timeout": {
+          "name": "Časový limit",
+          "description": "Koľko sekúnd môže čítanie trvať, predvolene 10. Dlhší limit zároveň zruší obmedzenie veľkosti 64 KB, pre veľký prostriedok, ako je prenos súboru. Dopytovanie a príkazy počas neho čakajú."
+        },
+        "save_to_file": {
+          "name": "Uložiť súbory",
+          "description": "Uloží každý súbor, ktorý čítanie vráti, do priečinka localthings_downloads v konfiguračnom adresári Home Assistantu a v odpovedi namiesto jeho obsahu uvedie uložené súbory."
         }
       }
     },
@@ -2828,6 +3281,62 @@
         "duration": {
           "name": "Trvanie",
           "description": "Koľko sekúnd počúvať, najviac 120."
+        }
+      }
+    },
+    "forget_known_apps": {
+      "name": "Zabudnúť naučené aplikácie TV",
+      "description": "Vymaže aplikácie, ktoré televízor spustil a ktoré výber Otvoriť aplikáciu a media_player.play_media ponúkajú podľa názvu. Vstavané obrazovky zostanú. Aplikácie sa naučia znova, keď ich televízor zobrazí, počnúc tou, ktorá je práve otvorená.",
+      "fields": {
+        "device_id": {
+          "name": "Zariadenie",
+          "description": "Televízor, ktorého naučené aplikácie sa majú zabudnúť."
+        }
+      }
+    },
+    "search": {
+      "name": "Hľadať na TV",
+      "description": "Otvorí vyhľadávanie na televízore Samsung: YouTube sa otvorí na výsledkoch, ostatné weby v prehliadači televízora.",
+      "fields": {
+        "device_id": {
+          "name": "Zariadenie",
+          "description": "Televízor, na ktorom sa hľadá."
+        },
+        "query": {
+          "name": "Dopyt",
+          "description": "Čo sa má hľadať."
+        },
+        "site": {
+          "name": "Web",
+          "description": "Kde hľadať. Predvolene YouTube."
+        }
+      }
+    },
+    "open_settings": {
+      "name": "Otvoriť stránku nastavení TV",
+      "description": "Otvorí stránku ponuky nastavení televízora Samsung. Zoznam pochádza z firmvéru Samsungu; nie každý televízor má každú stránku a dá sa zadať aj iné id stránky.",
+      "fields": {
+        "device_id": {
+          "name": "Zariadenie",
+          "description": "Televízor, na ktorom sa stránka otvorí."
+        },
+        "page": {
+          "name": "Stránka",
+          "description": "Stránka nastavení, ktorá sa má otvoriť."
+        }
+      }
+    },
+    "set_sleep_timer": {
+      "name": "Nastaviť časovač vypnutia TV",
+      "description": "Vypne televízor Samsung po tomto počte minút; 0 časovač vypne. Televízor zostávajúci čas nehlási, overte ho v jeho ponuke (Všeobecné, Správca systému, Čas, Časovač vypnutia).",
+      "fields": {
+        "device_id": {
+          "name": "Zariadenie",
+          "description": "Televízor, na ktorom sa časovač nastaví."
+        },
+        "minutes": {
+          "name": "Minúty",
+          "description": "Minúty do vypnutia televízora; 0 časovač vypne."
         }
       }
     }

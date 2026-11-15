@@ -94,9 +94,6 @@
       "paired_hood_power": {
         "name": "Napajanje uparenog aspiratora"
       },
-      "periodic_air_sensing": {
-        "name": "Periodično uzorkovanje vazduha"
-      },
       "pouring": {
         "name": "Sipanje"
       },
@@ -187,11 +184,41 @@
       "woofer_connection": {
         "name": "Povezivanje vufera"
       },
+      "bluetooth_speaker": {
+        "name": "Bluetooth zvučnik"
+      },
+      "ip_control": {
+        "name": "IP kontrola"
+      },
       "lamp": {
         "name": "Lampa"
       },
       "energy_saving": {
         "name": "Ušteda energije"
+      },
+      "mop_attached": {
+        "name": "Krpa postavljena"
+      },
+      "dust_bag_full": {
+        "name": "Kesa za prašinu u stanici puna"
+      },
+      "dock_filter": {
+        "name": "Filter stanice"
+      },
+      "motor_filter": {
+        "name": "Filter motora"
+      },
+      "do_not_disturb": {
+        "name": "Ne uznemiravaj"
+      },
+      "clean_water_tank": {
+        "name": "Rezervoar za čistu vodu"
+      },
+      "dirty_water_tank": {
+        "name": "Rezervoar za prljavu vodu"
+      },
+      "station_water_leak": {
+        "name": "Curenje vode iz stanice"
       }
     },
     "button": {
@@ -245,6 +272,15 @@
       },
       "pair_bluetooth": {
         "name": "Upari Bluetooth"
+      },
+      "screen_off": {
+        "name": "Isključi ekran"
+      },
+      "empty_dust_bin": {
+        "name": "Isprazni posudu za prašinu"
+      },
+      "find_robot": {
+        "name": "Pronađi robota"
       }
     },
     "climate": {
@@ -304,6 +340,9 @@
       },
       "paired_hood_light": {
         "name": "Svetlo uparenog aspiratora"
+      },
+      "drum_light": {
+        "name": "Svetlo bubnja"
       }
     },
     "number": {
@@ -342,6 +381,9 @@
       },
       "sound_volume": {
         "name": "Jačina zvuka"
+      },
+      "speaker_volume": {
+        "name": "Jačina zvučnika"
       },
       "target_humidity": {
         "name": "Ciljna vlažnost"
@@ -614,7 +656,13 @@
           "7f": "Vremensko sušenje",
           "98": "Brzo sušenje 35",
           "eb": "Osetljivo",
-          "b6": "Sintetika"
+          "b6": "Sintetika",
+          "94": "Peškiri",
+          "a1": "Uklanjanje nabora",
+          "ad": "Košulja/bluza",
+          "ae": "Donji veš",
+          "af": "Džemper",
+          "b0": "Dodaci"
         }
       },
       "dryer_cycle_table_03": {
@@ -674,7 +722,10 @@
           "35": "Uklanjanje nabora",
           "36": "Provetravanje hladnim vazduhom",
           "3e": "Mala količina veša",
-          "2e": "Eko normalno"
+          "2e": "Eko normalno",
+          "42": "Osvežavanje",
+          "44": "Brzo sušenje",
+          "47": "Sušenje za kućne ljubimce"
         }
       },
       "dryer_dry_level": {
@@ -972,6 +1023,9 @@
           "mute": "Utišano"
         }
       },
+      "sound_tone": {
+        "name": "Ton zvuka"
+      },
       "energy_saving_mode": {
         "name": "Režim uštede energije"
       },
@@ -1002,6 +1056,17 @@
           "extra_high": "Veoma visoka"
         }
       },
+      "dryer_temperature": {
+        "name": "Temperatura",
+        "state": {
+          "none": "Nema",
+          "extra_low": "Veoma niska",
+          "low": "Niska",
+          "medium_low": "Srednje niska",
+          "medium": "Srednja",
+          "high": "Visoka"
+        }
+      },
       "wash_temperature": {
         "name": "Temperatura pranja",
         "state": {
@@ -1018,6 +1083,28 @@
         "name": "Ciklus",
         "state": {
           "01": "Normalno",
+          "11": "Vuna",
+          "19": "Ispiranje + Centrifuga",
+          "1b": "Kuvanje",
+          "1e": "Deca",
+          "1f": "Svakodnevno pranje",
+          "2c": "Sintetika",
+          "2f": "Pamuk",
+          "30": "Džins",
+          "31": "Tamni veš",
+          "33": "Eko čišćenje bubnja",
+          "34": "Super eko pranje",
+          "35": "Odeća za spoljne aktivnosti",
+          "37": "Nega beba",
+          "3a": "Posteljina",
+          "3b": "Samo centrifuga",
+          "3e": "Optimalno pranje",
+          "3f": "Peglanje eko pamuk",
+          "41": "Baštovanstvo",
+          "42": "Sportska odeća",
+          "43": "Sanitizacija",
+          "47": "Super brzina",
+          "48": "Osetljivo",
           "50": "Sušenje pamuka",
           "51": "Sušenje sintetike",
           "55": "Beli veš",
@@ -1059,6 +1146,7 @@
           "ab": "Eko hladno pranje",
           "b1": "Samočišćenje+",
           "ba": "Ispuštanje vode/Centrifuga",
+          "bd": "Automatsko optimalno pranje",
           "c7": "Eko čišćenje bubnja",
           "ca": "Osvežavanje vazduhom",
           "d0": "Pamuk",
@@ -1188,7 +1276,14 @@
           "5f": "Samo centrifuga",
           "63": "Snažna para",
           "67": "Antialergijska para",
-          "68": "Kabasti veš sa parom"
+          "68": "Kabasti veš sa parom",
+          "a1": "Normalno",
+          "a7": "Nega proizvoda",
+          "a9": "Tide Pod hladno",
+          "ad": "AI OptiWash+Sušenje",
+          "59": "Lako održavanje",
+          "a8": "Vremensko sušenje",
+          "aa": "Provetravanje hladnim vazduhom"
         }
       },
       "washer_dry_level": {
@@ -1201,7 +1296,12 @@
           "180": "3 sata",
           "240": "4 sata",
           "none": "Isključeno",
-          "cupboard": "Suvo za ormar"
+          "cupboard": "Suvo za ormar",
+          "damp": "Vlažno",
+          "less": "Manje",
+          "normal": "Normalno",
+          "more": "Više",
+          "very": "Veoma"
         }
       },
       "zone_mode": {
@@ -1251,6 +1351,13 @@
           "smart": "Pametno",
           "high": "Jako",
           "low": "Slabo"
+        }
+      },
+      "always_on_display_mode": {
+        "name": "Režim uvek uključenog ekrana",
+        "state": {
+          "always": "Uvek",
+          "scheduled": "Po rasporedu"
         }
       },
       "ventilation_mode": {
@@ -1346,6 +1453,14 @@
           "ita": "Italijanski"
         }
       },
+      "tv_remote": {
+        "name": "Daljinski upravljač televizora",
+        "state": {
+          "tv_remote_all": "Svi daljinski upravljači",
+          "tv_remote_off": "Isključeno",
+          "tv_remote_samsung": "Samo Samsung daljinski upravljači"
+        }
+      },
       "equalizer": {
         "name": "Ekvilajzer",
         "state": {
@@ -1364,7 +1479,10 @@
           "repeat": "Ponovljeno",
           "manual": "Ručno",
           "stop": "Zaustavljeno",
-          "map": "Mapa"
+          "map": "Mapa",
+          "spot": "Lokalno",
+          "area": "Prostorija",
+          "object": "Objekat"
         }
       },
       "robot_sound": {
@@ -1372,7 +1490,56 @@
         "state": {
           "soundeffect": "Zvučni efekti",
           "mute": "Utišano",
-          "voice": "Glas"
+          "voice": "Glas",
+          "voicefeed": "Glas"
+        }
+      },
+      "smart_ventilate_mode": {
+        "name": "Režim pametne ventilacije",
+        "state": {
+          "sensing": "Samo provera",
+          "alarm": "Primaj obaveštenja",
+          "airpurify": "Tiha ventilacija"
+        }
+      },
+      "picture_mode": {
+        "name": "Režim slike"
+      },
+      "rear_speaker_position": {
+        "name": "Položaj zadnjih zvučnika",
+        "state": {
+          "front": "Napred",
+          "rear": "Pozadi"
+        }
+      },
+      "open_app": {
+        "name": "Otvori aplikaciju"
+      },
+      "cleaning_method": {
+        "name": "Način čišćenja",
+        "state": {
+          "vacuum": "Usisavanje",
+          "mop": "Brisanje",
+          "atonce": "Usisavanje i brisanje",
+          "mopaftervacuum": "Brisanje posle usisavanja"
+        }
+      },
+      "water_level": {
+        "name": "Nivo vode",
+        "state": {
+          "veryhigh": "Veoma visok",
+          "high": "Visok",
+          "med": "Srednji",
+          "low": "Nizak",
+          "verylow": "Veoma nizak"
+        }
+      },
+      "cleaning_option": {
+        "name": "Opcija čišćenja",
+        "state": {
+          "daily": "Svakodnevno",
+          "intensive": "Intenzivno",
+          "light": "Lagano"
         }
       }
     },
@@ -1412,9 +1579,6 @@
       },
       "auto_ventilation_action": {
         "name": "Akcija automatske ventilacije"
-      },
-      "automatic_ventilation_state": {
-        "name": "Status automatske ventilacije"
       },
       "battery": {
         "name": "Baterija"
@@ -1566,6 +1730,12 @@
       },
       "drum_clean_last_cleaned": {
         "name": "Bubanj je poslednji put očišćen"
+      },
+      "combo_dry_clean_cycles_remaining": {
+        "name": "Čišćenje bubnja (sušenje) potrebno za"
+      },
+      "combo_dry_clean_last_cleaned": {
+        "name": "Bubanj je poslednji put očišćen (sušenje)"
       },
       "quick_wash": {
         "name": "Brzo pranje",
@@ -1764,6 +1934,15 @@
       "progress_percentage": {
         "name": "Procenat napretka"
       },
+      "wash_progress_percentage": {
+        "name": "Procenat napretka pranja"
+      },
+      "dry_progress_percentage": {
+        "name": "Procenat napretka sušenja"
+      },
+      "wash_remaining_minutes": {
+        "name": "Preostalo vreme pranja"
+      },
       "selfcheck_error": {
         "name": "Greška pri samoproveri"
       },
@@ -1831,6 +2010,57 @@
       },
       "zone_temperature": {
         "name": "Temperatura zone"
+      },
+      "zone_water_law_offset": {
+        "name": "Pomak klimatske krive zone"
+      },
+      "zone2_water_law_offset": {
+        "name": "Pomak klimatske krive zone 2"
+      },
+      "fsv_outdoor_curve_cold_point": {
+        "name": "Klimatska kriva, hladna tačka spoljašnje temperature (FSV 2011)"
+      },
+      "fsv_outdoor_curve_warm_point": {
+        "name": "Klimatska kriva, topla tačka spoljašnje temperature (FSV 2012)"
+      },
+      "fsv_water_law_1_cold_target": {
+        "name": "Klimatska kriva 1, ciljna temperatura pri niskoj spoljašnjoj temperaturi (FSV 2021)"
+      },
+      "fsv_water_law_1_warm_target": {
+        "name": "Klimatska kriva 1, ciljna temperatura pri visokoj spoljašnjoj temperaturi (FSV 2022)"
+      },
+      "fsv_water_law_2_cold_target": {
+        "name": "Klimatska kriva 2, ciljna temperatura pri niskoj spoljašnjoj temperaturi (FSV 2031)"
+      },
+      "fsv_water_law_2_warm_target": {
+        "name": "Klimatska kriva 2, ciljna temperatura pri visokoj spoljašnjoj temperaturi (FSV 2032)"
+      },
+      "fsv_dhw_temperature_maximum": {
+        "name": "Gornja granica ciljne temperature tople vode (FSV 1051)"
+      },
+      "fsv_dhw_temperature_minimum": {
+        "name": "Donja granica ciljne temperature tople vode (FSV 1052)"
+      },
+      "fsv_dhw_application_mode": {
+        "name": "Režim rada tople vode (FSV 3011)"
+      },
+      "fsv_heating_dhw_priority": {
+        "name": "Prioritet grejanja i tople vode (FSV 4011)"
+      },
+      "fsv_heating_dhw_changeover_temperature": {
+        "name": "Spoljašnja temperatura promene prioriteta grejanje/topla voda (FSV 4012)"
+      },
+      "fsv_backup_heater_application": {
+        "name": "Upotreba pomoćnog grejača (FSV 4021)"
+      },
+      "fsv_heating_outlet_temperature_maximum": {
+        "name": "Gornja granica temperature polazne vode grejanja (FSV 1031)"
+      },
+      "fsv_heating_outlet_temperature_minimum": {
+        "name": "Donja granica temperature polazne vode grejanja (FSV 1032)"
+      },
+      "fsv_zone_control_application": {
+        "name": "Upravljanje zonama (FSV 4061)"
       },
       "zone2_temperature": {
         "name": "Temperatura zone 2"
@@ -1940,6 +2170,36 @@
       "heat_generated_kwh": {
         "name": "Proizvedena toplota"
       },
+      "cycle_flow_temperature": {
+        "name": "Temperatura polazne vode (ciklus)"
+      },
+      "cycle_return_temperature": {
+        "name": "Temperatura povratne vode (ciklus)"
+      },
+      "cycle_flow_rate": {
+        "name": "Protok (ciklus)"
+      },
+      "cycle_pump_speed": {
+        "name": "Brzina pumpe (ciklus)"
+      },
+      "compressor_frequency": {
+        "name": "Frekvencija kompresora"
+      },
+      "compressor_target_frequency": {
+        "name": "Ciljna frekvencija kompresora"
+      },
+      "discharge_temperature": {
+        "name": "Temperatura potisa"
+      },
+      "evaporator_saturation_temperature": {
+        "name": "Temperatura zasićenja isparivača"
+      },
+      "suction_temperature": {
+        "name": "Temperatura usisavanja"
+      },
+      "cycle_updated": {
+        "name": "Podaci ciklusa ažurirani"
+      },
       "three_way_valve": {
         "name": "Trokraki ventil"
       },
@@ -1948,6 +2208,9 @@
       },
       "installation_type": {
         "name": "Tip instalacije"
+      },
+      "audio_codec": {
+        "name": "Audio kodek"
       },
       "micom_version": {
         "name": "Verzija mikrokontrolera (Micom)"
@@ -1979,7 +2242,8 @@
           "pause": "Pauzirano",
           "alarm": "Alarm",
           "reserve": "Zakazano",
-          "poweroff": "Isključen"
+          "poweroff": "Isključen",
+          "charged": "Napunjen"
         }
       },
       "robot_movement": {
@@ -1987,6 +2251,75 @@
       },
       "oven_setpoint": {
         "name": "Zadana vrednost"
+      },
+      "air_sensing_interval": {
+        "name": "Interval provere kvaliteta vazduha"
+      },
+      "range_hood_pm10_air_quality": {
+        "name": "Kvalitet vazduha PM10",
+        "state": {
+          "good": "Dobar",
+          "normal": "Normalan",
+          "poor": "Loš",
+          "very_poor": "Veoma loš",
+          "processing": "Obrada"
+        }
+      },
+      "range_hood_pm25_air_quality": {
+        "name": "Kvalitet vazduha PM2.5",
+        "state": {
+          "good": "Dobar",
+          "normal": "Normalan",
+          "poor": "Loš",
+          "very_poor": "Veoma loš",
+          "processing": "Obrada"
+        }
+      },
+      "range_hood_pm1_air_quality": {
+        "name": "Kvalitet vazduha PM1.0",
+        "state": {
+          "good": "Dobar",
+          "normal": "Normalan",
+          "poor": "Loš",
+          "very_poor": "Veoma loš",
+          "processing": "Obrada"
+        }
+      },
+      "range_hood_last_air_sensing_level": {
+        "name": "Poslednja ocena kvaliteta vazduha",
+        "state": {
+          "good": "Dobar",
+          "normal": "Normalan",
+          "poor": "Loš",
+          "very_poor": "Veoma loš"
+        }
+      },
+      "range_hood_clean_level": {
+        "name": "Nivo kvaliteta vazduha",
+        "state": {
+          "good": "Dobar",
+          "normal": "Normalan",
+          "poor": "Loš",
+          "very_poor": "Veoma loš"
+        }
+      },
+      "illuminance": {
+        "name": "Osvetljenost"
+      },
+      "channel": {
+        "name": "Kanal"
+      },
+      "now_showing": {
+        "name": "Trenutno na programu"
+      },
+      "cast_session": {
+        "name": "Sesija prebacivanja"
+      },
+      "cast_item": {
+        "name": "Prebačena stavka"
+      },
+      "battery_health": {
+        "name": "Stanje baterije"
       }
     },
     "switch": {
@@ -2209,6 +2542,12 @@
       "indicator_light": {
         "name": "Indikatorsko svetlo"
       },
+      "always_on_display": {
+        "name": "Uvek uključen ekran"
+      },
+      "bluetooth_discoverable": {
+        "name": "Bluetooth vidljivost"
+      },
       "windfree": {
         "name": "Wind-Free režim"
       },
@@ -2277,6 +2616,18 @@
       },
       "repeated_cleaning": {
         "name": "Ponovi čišćenje"
+      },
+      "buzzer_sound": {
+        "name": "Zvučni signal"
+      },
+      "smart_ventilate": {
+        "name": "Pametna ventilacija"
+      },
+      "hood_do_not_disturb": {
+        "name": "Ne uznemiravaj"
+      },
+      "robot_lighting": {
+        "name": "Osvetljenje"
       }
     },
     "time": {
@@ -2310,8 +2661,20 @@
       "sensing_skip_end": {
         "name": "Kraj preskakanja AI Purify uzorkovanja"
       },
+      "always_on_display_start": {
+        "name": "Početak uvek uključenog ekrana"
+      },
+      "always_on_display_end": {
+        "name": "Kraj uvek uključenog ekrana"
+      },
       "sensing_skip_start": {
         "name": "Početak preskakanja AI Purify uzorkovanja"
+      },
+      "hood_do_not_disturb_start": {
+        "name": "Početak režima „Ne uznemiravaj“"
+      },
+      "hood_do_not_disturb_end": {
+        "name": "Kraj režima „Ne uznemiravaj“"
       }
     },
     "water_heater": {
@@ -2327,10 +2690,21 @@
               "normal": "Normalno",
               "turbo": "Turbo",
               "quiet": "Tiho",
-              "extra_quiet": "Veoma tiho"
+              "extra_quiet": "Veoma tiho",
+              "ultra_quiet": "Ultra tiho"
             }
           }
         }
+      }
+    },
+    "remote": {
+      "remote": {
+        "name": "Daljinski upravljač"
+      }
+    },
+    "notify": {
+      "notification": {
+        "name": "Obaveštenja"
       }
     }
   },
@@ -2371,6 +2745,16 @@
         "menu_options": {
           "psk_owner": "Uvezite unapred deljeni ključ vlasnika (owner PSK)",
           "psk_peer": "Uvezite unapred deljeni ključ klijenta (peer PSK)",
+          "fallback_ca": "Isprobajte AC14K_M CA sertifikat"
+        }
+      },
+      "credential_timeout": {
+        "title": "Uređaj je prestao da odgovara",
+        "description": "{host} je odgovorio na portu svog lokalnog API-ja, ali je prestao da odgovara tokom razmene sertifikata, čak i posle ponovnog pokušaja. Neki uređaji se tako ponašaju kada umesto sertifikata koriste unapred deljeni ključ (PSK). Drugi još uvek drže staru vezu, koju ponovno pokretanje uređaja oslobađa. Ako ste ga upravo ponovo pokrenuli, pokušajte ponovo. U suprotnom, uvezite unapred deljeni ključ koji već posedujete: LocalThings ne može samostalno da ga pribavi. Takođe je ponuđen i AC14K_M CA sertifikat, ali do sada nije prijavljeno da ga je prihvatio nijedan uređaj koji je ignorisao automatski sertifikat.\n\nUređaje koji koriste unapred deljeni ključ još uvek pokušavamo da u potpunosti razumemo i verovatno ćete naići na probleme sa njima. Naš plan, ono što smo do sada otkrili, kao i mesto za ostavljanje povratnih informacija nalaze se u [issue #435]({issue_url}).",
+        "menu_options": {
+          "retry_probe": "Pokušajte ponovo",
+          "psk_owner": "Uvezite unapred deljeni ključ vlasnika",
+          "psk_peer": "Uvezite unapred deljeni ključ klijenta",
           "fallback_ca": "Isprobajte AC14K_M CA sertifikat"
         }
       },
@@ -2450,6 +2834,7 @@
       "no_response": "Nema odgovora sa te IP adrese — ništa nije vraćeno ni na jednom portu u lokalnom API opsegu uređaja (UDP 49152-49160). Proverite da li je IP adresa tačna, da li je uređaj uključen i na istoj mreži kao i Home Assistant, i da li zaštitni zid (firewall) odbacuje UDP saobraćaj ka njemu.",
       "ports_closed": "Ta IP adresa je dostupna, ali je aktivno odbila svaki port u lokalnom API opsegu (UDP 49152-49160) i nije odgovorila ništa na kanalu za otkrivanje. Najverovatnije nije u pitanju Samsung uređaj, ili to nije uređaj sa omogućenim lokalnim API-jem.",
       "no_dtls_server": "Portovi u lokalnom API opsegu su dostupni na toj adresi, ali ništa tamo nije odgovorilo na DTLS rukovanje (handshake). Proverite da li IP adresa pripada uređaju, a ne nekom drugom uređaju na vašoj mreži.",
+      "exec_memory_denied": "Home Assistant nema dozvolu da pravi izvršnu memoriju koja je DTLS biblioteci potrebna za povratne pozive, pa rukovanje nije moglo ni da počne. Ovo je podešavanje na hostu Home Assistant-a, a ne problem sa uređajem. Na instalaciji sa systemd-om postavite MemoryDenyWriteExecute=no (ili uklonite taj red) u servisnoj jedinici Home Assistant-a i ponovo ga pokrenite. Isto može da izazove SELinux podešavanje deny_execmem ili ojačana jezgra. Tačna greška je u Home Assistant logu.",
       "appliance_no_dtls": "Ta adresa jeste Samsung uređaj — identifikovao se kao {model} preko nešifrovanog kanala za otkrivanje i oglasio svoj bezbedni port kao {port} — ali nikada nije završio DTLS rukovanje na njemu. Adresa nije problem. Proverite da li je na panelu uređaja isključeno daljinsko upravljanje (Remote Control) ili slična postavka, i pogledajte dnevnik (log) Home Assistant-a za tačan uzrok neuspeha.",
       "non_appliance_stack": "Nešto na toj IP adresi je odgovorilo, ali se identifikovalo kao OCF usluga koja nije kućni aparat. Neki Samsung uređaji pokreću takvu uslugu uporedo sa sopstvenom, a LocalThings može pronaći aparat iza nje samo kada je Home Assistant na istom mrežnom segmentu. Stavite Home Assistant i uređaj na isti subnet i VLAN, pa pokušajte ponovo.",
       "multiple_appliances": "Više od jednog Samsung uređaja odgovara na toj IP adresi, a LocalThings još uvek ne može da izabere između njih. Molimo vas da to prijavite na LocalThings sistemu za praćenje grešaka i priložite dnevnik (log) Home Assistant-a.",
@@ -2494,12 +2879,13 @@
           "subdevices": "Poduređaji",
           "cloud_courses": "Preuzmi cikluse",
           "forget_learned_modes": "Zaboravi zapamćene režime",
-          "debug_write": "Otklanjanje grešaka: upisivanje u resurs"
+          "debug_write": "Otklanjanje grešaka: upisivanje u resurs",
+          "camera_casting": "Prenos kamera"
         }
       },
       "settings": {
         "title": "Podešavanja uređaja",
-        "description": "Neki uređaji prihvataju određene komande upisa (npr. podrazumevano doziranje deterdženta/omekšivača na veš mašini) čak i kada prijavljuju da je daljinsko upravljanje isključeno. LocalThings podrazumevano blokira svaki upis uz jasnu poruku o grešci kad god uređaj javi da je daljinsko upravljanje isključeno, umesto da dozvoli uređaju da to tiho odbaci. Omogućite ovo samo ako ste potvrdili da upisi zaista rade na ovom uređaju kada je daljinsko upravljanje isključeno — u suprotnom ćete jasnu poruku o grešci zameniti za tihi neuspeh.\n\nProcenjeno vreme završetka se ponovo izračunava na osnovu procene preostalog vremena uređaja prilikom svakog uzorkovanja, što može da varira ili da se koriguje za minut ili dva između ažuriranja. Povećajte minimalnu vrednost promene ispod da biste zadržali senzor na poslednjoj prijavljenoj vrednosti sve dok se procena ne pomeri za najmanje toliko minuta, čime se smanjuje šum u istoriji/dnevniku. Postavite na 0 da biste prijavili svaku izračunatu promenu.\n\nNeki modeli prijavljuju režim koji nikada ne navode kao podržan — na primer, klima uređaj koji je postavljen na Tihi režim (Quiet), a nudi samo Off/Sleep/Speed. LocalThings pamti svaki takav režim koji uoči i nastavlja da ga nudi, tako da ostaje dostupan za izbor nakon što je uređaj bio u njemu barem jednom. Isključite ovo da biste nudili samo ono što uređaj oglašava; koristite „Zaboravi zapamćene režime“ na prethodnom ekranu da biste obrisali ono što je već zapamćeno.\n\nUređaj za pranje veša sa ciklusima preuzetim sa oblaka ovde dobija podsetnik kada prijavi ciklus koji Home Assistant još uvek ne može da ponudi — neki uređaji ga prijavljuju čak i ako sami nikada niste otvorili ekran „Preuzmi cikluse“ u aplikaciji SmartThings. Isključite ovo da biste zaustavili taj podsetnik i sakrili već imenovane preuzete cikluse sa liste ciklusa; ništa što je već podešeno neće biti izgubljeno, a ponovno uključivanje vraća sve nazad.",
+        "description": "Neki uređaji prihvataju određene komande upisa (npr. podrazumevano doziranje deterdženta/omekšivača na veš mašini) čak i kada prijavljuju da je daljinsko upravljanje isključeno. LocalThings podrazumevano blokira svaki upis uz jasnu poruku o grešci kad god uređaj javi da je daljinsko upravljanje isključeno, umesto da dozvoli uređaju da to tiho odbaci. Omogućite ovo samo ako ste potvrdili da upisi zaista rade na ovom uređaju kada je daljinsko upravljanje isključeno — u suprotnom ćete jasnu poruku o grešci zameniti za tihi neuspeh.\n\nProcenjeno vreme završetka računa se od trenutka kada stigne svako očitavanje preostalog vremena: u sekundu na uređajima koji prijavljuju sekunde, a na ostalima na najbliži minut. Korekcija manja od oko 5% preostalog vremena se zadržava, najviše do minimalne vrednosti promene ispod, čime se smanjuje šum u istoriji/dnevniku. Postavite na 0 da biste prijavili svaku promenu.\n\nNeki modeli prijavljuju režim koji nikada ne navode kao podržan — na primer, klima uređaj koji je postavljen na Tihi režim (Quiet), a nudi samo Off/Sleep/Speed. LocalThings pamti svaki takav režim koji uoči i nastavlja da ga nudi, tako da ostaje dostupan za izbor nakon što je uređaj bio u njemu barem jednom. Isključite ovo da biste nudili samo ono što uređaj oglašava; koristite „Zaboravi zapamćene režime“ na prethodnom ekranu da biste obrisali ono što je već zapamćeno.\n\nUređaj za pranje veša sa ciklusima preuzetim sa oblaka ovde dobija podsetnik kada prijavi ciklus koji Home Assistant još uvek ne može da ponudi — neki uređaji ga prijavljuju čak i ako sami nikada niste otvorili ekran „Preuzmi cikluse“ u aplikaciji SmartThings. Isključite ovo da biste zaustavili taj podsetnik i sakrili već imenovane preuzete cikluse sa liste ciklusa; ništa što je već podešeno neće biti izgubljeno, a ponovno uključivanje vraća sve nazad.",
         "data": {
           "bypass_remote_control_lock": "Dozvoli upise čak i kada je prijavljeno da je daljinsko upravljanje isključeno",
           "finish_time_hysteresis_minutes": "Procenjen završetak -- minimalna promena (minuti)",
@@ -2542,7 +2928,7 @@
       },
       "cloud_manual": {
         "title": "Preuzmi cikluse",
-        "description": "Ovaj aparat prijavljuje {total} preuzetih ciklusa; {found} je uočeno do sada.\n\nPodešavanja preuzetog ciklusa su vidljiva samo dok je taj ciklus učitan, a aparat nikada ne prijavljuje njihova imena. Da biste dodali one koji nedostaju ({pending}): u aplikaciji SmartThings (ne na samom aparatu), otvorite ovaj aparat i dodirnite „Preuzmi cikluse“ — poseban red u odnosu na „Ciklus“, niže na ekranu, i onaj koji je ovde važan. Prođite kroz svaki preuzeti program redom, zastajući nekoliko sekundi na svakom kako bi LocalThings mogao da ga uoči, a zatim se vratite ovde.\n\nDajte svakom od njih ime koje želite da vidite u Home Assistant-u. Ostavite ime prazno da taj ciklus ne bi bio na listi ciklusa. Imena moraju biti jedinstvena.\n\nCiklus preuzimanja (Download cycle) je program na ovom aparatu koji pokreće preuzeti program. Detektuje se automatski, ali ga potvrdite ovde pre upotrebe: izbor preuzetog ciklusa upisuje ovaj kod programa u aparat.",
+        "description": "Ovaj aparat ima najmanje sledeći broj preuzetih ciklusa: {total}; do sada je uočeno: {found}.\n\nPodešavanja preuzetog ciklusa su vidljiva samo dok je taj ciklus učitan, a aparat nikada ne prijavljuje njihova imena. Da biste dodali one koji nedostaju ({pending}): u aplikaciji SmartThings (ne na samom aparatu), otvorite ovaj aparat i dodirnite „Preuzmi cikluse“ — poseban red u odnosu na „Ciklus“, niže na ekranu, i onaj koji je ovde važan. Prođite kroz svaki preuzeti program redom, zastajući nekoliko sekundi na svakom kako bi LocalThings mogao da ga uoči, a zatim se vratite ovde.\n\nDajte svakom od njih ime koje želite da vidite u Home Assistant-u. Ostavite ime prazno da taj ciklus ne bi bio na listi ciklusa. Imena moraju biti jedinstvena.\n\nCiklus preuzimanja (Download cycle) je program na ovom aparatu koji pokreće preuzeti program. Detektuje se automatski, ali ga potvrdite ovde pre upotrebe: izbor preuzetog ciklusa upisuje ovaj kod programa u aparat.",
         "data": {
           "download_course": "Kod programa preuzetog ciklusa"
         }
@@ -2573,6 +2959,13 @@
           "cloud_guided": "Čekaj ponovo",
           "cloud_finish": "Završi"
         }
+      },
+      "camera_casting": {
+        "title": "Prenos kamera sa malim kašnjenjem",
+        "description": "Kada prenesete kameru na ovaj televizor, Home Assistant je obično služi preko sopstvenog strima, koji televizor baferuje oko 20 sekundi. Uključite ovo da bi LocalThings pokrenuo ffmpeg i sam služio kameru, čime se kašnjenje smanjuje na nekoliko sekundi.\n\nOvo dodaje dve krajnje tačke na veb server Home Assistant-a. Televizor otvara strim nasumičnim jednokratnim linkom, jer ne može da se prijavi. Ostavite isključeno osim ako prenosite kamere i kašnjenje vam je bitno: ništa drugo na televizoru to ne zahteva. Potrebni su ffmpeg i Home Assistant URL dostupan televizoru.",
+        "data": {
+          "camera_casting": "Prenosi kamere preko LocalThings-a (ffmpeg)"
+        }
       }
     },
     "error": {
@@ -2596,6 +2989,10 @@
     "cloud_courses_undiscovered": {
       "title": "Preuzeti ciklusi nisu podešeni za {device_name}",
       "description": "{device_name} ima {pending} od ukupno {total} preuzetih ciklusa koje Home Assistant još uvek ne može da ponudi. Preuzeti ciklus se može koristiti tek kada aparat bude uočen sa učitanim tim ciklusom — na ekranu „Preuzmi cikluse“ u aplikaciji SmartThings, a ne na ekranu „Ciklus“ — i nakon što mu dodelite ime.\n\nDa biste ih podesili, idite na Podešavanja > Uređaji i usluge > LocalThings > {device_name} > Konfiguriši > Preuzmi cikluse i pratite uputstva tamo.\n\nNe koristite preuzete cikluse? Idite na Konfiguriši > Podešavanja uređaja i isključite opciju „Ponudi preuzete cikluse“ da biste trajno isključili ovaj podsetnik."
+    },
+    "removed_entities": {
+      "title": "Entiteti uklonjeni sa {device_name}",
+      "description": "LocalThings je sa {device_name} uklonio entitete koje više ne pruža, obično zato što su u ovoj verziji postali druga vrsta entiteta. Ove automatizacije i skripte i dalje upućuju na njih:\n\n{entities}\n\nAžurirajte ih da koriste zamenske entitete sa stranice uređaja, a zatim odbacite ovo obaveštenje."
     }
   },
   "exceptions": {
@@ -2727,6 +3124,54 @@
     },
     "media_option_not_supported": {
       "message": "Uređaj trenutno ne nudi ovu opciju."
+    },
+    "unknown_remote_command": {
+      "message": "Nepoznata komanda daljinskog upravljača: {command}"
+    },
+    "remote_power_unavailable": {
+      "message": "Upravljanje napajanjem nije dostupno za ovaj uređaj"
+    },
+    "wake_on_lan_failed": {
+      "message": "Slanje Wake-on-LAN televizoru nije uspelo: {error}"
+    },
+    "unsupported_media_type": {
+      "message": "Ovaj televizor može da reprodukuje kanale, aplikacije, slike, video datoteke, HLS tokove, kamere i YouTube video snimke (channel, app, image, video, url ili youtube), ne {media_type}."
+    },
+    "invalid_channel_number": {
+      "message": "{channel} nije broj kanala; koristite cifre kao što su 5 ili 5-1."
+    },
+    "invalid_app_id": {
+      "message": "Navedite id aplikacije (npr. kIciSQlYEM.plex) ili naziv aplikacije koju je televizor već pokrenuo."
+    },
+    "search_unsupported": {
+      "message": "Ovaj uređaj ne može da pretražuje; to mogu samo Samsung televizori."
+    },
+    "invalid_media_url": {
+      "message": "{url} nije http(s) veza ka slici, video datoteci ili HLS toku, niti YouTube veza ili id video snimka (MJPEG tokovi i DASH .mpd manifesti nisu podržani)."
+    },
+    "cast_unsupported": {
+      "message": "Ovaj uređaj ne može da prikazuje slike niti da reprodukuje YouTube video snimke."
+    },
+    "notify_unsupported": {
+      "message": "Ovaj uređaj ne može da prikazuje obaveštenja."
+    },
+    "notify_message_empty": {
+      "message": "Poruka obaveštenja je prazna."
+    },
+    "settings_unsupported": {
+      "message": "Ovaj uređaj nema meni podešavanja televizora kojim bi se upravljalo."
+    },
+    "apps_unsupported": {
+      "message": "Ovaj uređaj ne vodi spisak aplikacija televizora."
+    },
+    "invalid_ask": {
+      "message": "extra.ask mora biti true ili false, a ne „{value}”."
+    },
+    "camera_timeout": {
+      "message": "Kamera {camera} je predugo odgovarala."
+    },
+    "wake_on_lan_no_route": {
+      "message": "Slanje Wake-on-LAN televizoru nije uspelo: nema mrežne rute do {targets}."
     }
   },
   "selector": {
@@ -2810,6 +3255,14 @@
         "href": {
           "name": "Href resursa",
           "description": "Kanonski href resursa za čitanje (npr. /mode/vs/0). Dodajte upit nakon znaka ? da biste ga poslali uz GET zahtev, npr. /device/1?if=oic.if.b, sa znakom & između parametara. Izostavite da biste dobili keširani snimak svih praćenih resursa umesto GET zahteva u realnom vremenu."
+        },
+        "timeout": {
+          "name": "Vremensko ograničenje",
+          "description": "Broj sekundi za čitanje, podrazumevano 10. Duže ograničenje ukida i ograničenje veličine od 64 KB, za veliki resurs kao što je prenos datoteke. Prozivanje i komande čekaju dok traje."
+        },
+        "save_to_file": {
+          "name": "Sačuvaj datoteke",
+          "description": "Čuva svaku datoteku koju čitanje vrati u fasciklu localthings_downloads u konfiguracionom direktorijumu Home Assistant-a i u odgovoru navodi sačuvane datoteke umesto njihovog sadržaja."
         }
       }
     },
@@ -2828,6 +3281,62 @@
         "duration": {
           "name": "Trajanje",
           "description": "Broj sekundi tokom kojih se slušaju obaveštenja, najviše do 120."
+        }
+      }
+    },
+    "forget_known_apps": {
+      "name": "Zaboravi naučene aplikacije televizora",
+      "description": "Briše aplikacije koje su viđene pokrenute na televizoru, a koje izbor „Otvori aplikaciju” i media_player.play_media nude po nazivu. Ugrađeni ekrani ostaju. Aplikacije se ponovo uče kako ih televizor prikazuje, počevši od one koja je sada otvorena.",
+      "fields": {
+        "device_id": {
+          "name": "Uređaj",
+          "description": "Televizor čije naučene aplikacije treba zaboraviti."
+        }
+      }
+    },
+    "search": {
+      "name": "Pretraga na televizoru",
+      "description": "Otvara pretragu na Samsung televizoru: YouTube se otvara na rezultatima, a ostali sajtovi u pregledaču televizora.",
+      "fields": {
+        "device_id": {
+          "name": "Uređaj",
+          "description": "Televizor na kome se pretražuje."
+        },
+        "query": {
+          "name": "Upit",
+          "description": "Šta treba pretražiti."
+        },
+        "site": {
+          "name": "Sajt",
+          "description": "Gde pretraživati. Podrazumevano YouTube."
+        }
+      }
+    },
+    "open_settings": {
+      "name": "Otvori stranicu podešavanja televizora",
+      "description": "Otvara stranicu menija podešavanja Samsung televizora. Spisak potiče iz Samsung firmvera; nema svaki televizor svaku stranicu, a može se uneti i drugi id stranice.",
+      "fields": {
+        "device_id": {
+          "name": "Uređaj",
+          "description": "Televizor na kome se otvara stranica."
+        },
+        "page": {
+          "name": "Stranica",
+          "description": "Stranica podešavanja koju treba otvoriti."
+        }
+      }
+    },
+    "set_sleep_timer": {
+      "name": "Podesi tajmer za isključivanje televizora",
+      "description": "Isključuje Samsung televizor posle navedenog broja minuta; 0 isključuje tajmer. Televizor ne prijavljuje preostalo vreme, pa ga proverite u njegovom meniju (Opšte, Upravljanje sistemom, Vreme, Tajmer za isključivanje).",
+      "fields": {
+        "device_id": {
+          "name": "Uređaj",
+          "description": "Televizor na kome se podešava tajmer za isključivanje."
+        },
+        "minutes": {
+          "name": "Minuti",
+          "description": "Minuti do isključivanja televizora; 0 isključuje tajmer."
         }
       }
     }

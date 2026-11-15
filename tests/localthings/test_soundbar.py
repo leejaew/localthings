@@ -9,13 +9,16 @@ from __future__ import annotations
 
 import asyncio
 import json
+from contextlib import contextmanager
 from types import SimpleNamespace
 from unittest.mock import patch
 
 import pytest
 from homeassistant.components.media_player import MediaPlayerState
+from homeassistant.const import STATE_UNAVAILABLE
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ServiceValidationError
+from homeassistant.helpers import entity_registry as er
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.localthings.const import (
@@ -38,6 +41,7 @@ from custom_components.localthings.const import (
 )
 from custom_components.localthings.coordinator import LocalThingsCoordinator
 from custom_components.localthings.observe import MODE_OBSERVE
+from custom_components.localthings.registry.adapter import flatten
 from custom_components.localthings.registry.batch import parse_device0_batch
 from custom_components.localthings.registry.capabilities import av
 from custom_components.localthings.registry.capabilities import soundbar as soundbar_caps
@@ -674,16 +678,19 @@ _Q950T_STATES = {
 
 
 @pytest.mark.parametrize(
-    ("name", "state", "title", "playback_controls"),
+    ("name", "state", "title", "playback_controls", "stop"),
     [
-        ("standby", MediaPlayerState.OFF, None, False),
-        ("on_hdmi1", MediaPlayerState.ON, None, False),
-        ("spotify_playing", MediaPlayerState.PLAYING, "Song", True),
-        ("spotify_paused", MediaPlayerState.PAUSED, "Song", True),
-        ("hdmi1_after_spotify", MediaPlayerState.ON, None, False),
+        ("standby", MediaPlayerState.OFF, None, False, False),
+        ("on_hdmi1", MediaPlayerState.ON, None, False, False),
+        ("spotify_playing", MediaPlayerState.PLAYING, "Song", True, True),
+        # The paused bar refuses stop (#775).
+        ("spotify_paused", MediaPlayerState.PAUSED, "Song", True, False),
+        ("hdmi1_after_spotify", MediaPlayerState.ON, None, False, False),
     ],
 )
-async def test_the_q950t_states(hass: HomeAssistant, name, state, title, playback_controls) -> None:
+async def test_the_q950t_states(
+    hass: HomeAssistant, name, state, title, playback_controls, stop
+) -> None:
     from homeassistant.components.media_player import MediaPlayerEntityFeature as F
 
     entry = _mock_entry(hass)
@@ -715,6 +722,7 @@ async def test_the_q950t_states(hass: HomeAssistant, name, state, title, playbac
     if playback_controls:
         assert player.supported_features & controls == controls
         assert player.media_position == 61
+    assert bool(player.supported_features & F.STOP) is stop
 
 
 async def test_features_follow_what_the_bar_reports(hass: HomeAssistant) -> None:
@@ -782,3 +790,324 @@ async def test_only_advertised_sources_are_written(hass: HomeAssistant) -> None:
         await select("hdmi2")
     assert err.value.translation_key == "media_option_not_supported"
     assert len(session.writes) == writes
+
+
+def _push(coordinator, href: str, fields: dict) -> None:
+    coordinator._observe.apply(href, {**coordinator.resource(href), **fields}, source="poll")
+    coordinator.async_set_updated_data(flatten(coordinator.bound, coordinator.entity_resources()))
+
+
+@pytest.mark.parametrize(
+    ("domain", "key", "href", "present", "absent"),
+    [
+        # A restart while the bar is in standby, which drops the sub (#775).
+        (
+            "number",
+            "woofer_level",
+            "/sec/networkaudio/woofer",
+            {"x.com.samsung.networkaudio.connection": "on"},
+            {"x.com.samsung.networkaudio.connection": "off"},
+        ),
+        # Bass boost reads -1 in a sound mode without it.
+        (
+            "switch",
+            "bass_boost",
+            "/sec/networkaudio/advancedaudio",
+            {"x.com.samsung.networkaudio.bassboost": 0},
+            {"x.com.samsung.networkaudio.bassboost": -1},
+        ),
+    ],
+)
+async def test_state_gated_entities_follow_the_live_state(
+    hass: HomeAssistant, domain, key, href, present, absent
+) -> None:
+    entry = _mock_entry(hass)
+    await _setup_soundbar(hass, entry)
+    coordinator = _coordinator(hass, entry)
+    _freeze_polls(coordinator)
+    await hass.async_block_till_done()
+    unique_id = f"{DOMAIN}_{coordinator.device_key}_{key}"
+    registry = er.async_get(hass)
+
+    assert registry.async_get_entity_id(domain, DOMAIN, unique_id) is None
+
+    def state(entity_id):
+        current = hass.states.get(entity_id)
+        assert current is not None
+        return current.state
+
+    _push(coordinator, href, present)
+    await hass.async_block_till_done()
+    entity_id = registry.async_get_entity_id(domain, DOMAIN, unique_id)
+    assert entity_id is not None
+    assert state(entity_id) != STATE_UNAVAILABLE
+
+    _push(coordinator, href, absent)
+    await hass.async_block_till_done()
+    assert state(entity_id) == STATE_UNAVAILABLE
+
+    # Coming back reuses the same entity rather than adding a second one.
+    _push(coordinator, href, present)
+    await hass.async_block_till_done()
+    assert registry.async_get_entity_id(domain, DOMAIN, unique_id) == entity_id
+    assert state(entity_id) != STATE_UNAVAILABLE
+    assert (
+        len(
+            [
+                e
+                for e in er.async_entries_for_config_entry(registry, entry.entry_id)
+                if e.unique_id == unique_id
+            ]
+        )
+        == 1
+    )
+
+
+@contextmanager
+def _no_discovery_io(coordinator):
+    """First discovery's sub-unit enumeration and probes, which these tests
+    don't exercise and which would otherwise open a session."""
+    with (
+        patch.object(coordinator, "_enumerate_subdevices_blocking", side_effect=lambda r: r),
+        patch.object(coordinator, "_probe_blocking", return_value={}),
+    ):
+        yield
+
+
+async def test_an_href_missing_from_the_first_read_keeps_its_entities(
+    hass: HomeAssistant,
+) -> None:
+    """A flat board reads one href at a time, and one can time out on the
+    first read after a restart. Its entities stay registered from the
+    snapshot, unavailable until it answers, and nothing reloads (#807)."""
+    from dataclasses import asdict
+
+    entry = _mock_entry(hass)
+    coordinator = LocalThingsCoordinator(hass, entry)
+    resources = _soundbar_resources()
+    await coordinator._snapshot_store.async_save(
+        {"resources": resources, "subdevice_candidates": [], "identity": asdict(_IDENTITY)}
+    )
+    assert await coordinator.async_rehydrate()
+    href = next(b.href for b in coordinator.bound if b.href != "/sec/networkaudio/woofer")
+    kept = [b for b in coordinator.bound if b.href == href]
+
+    live = {h: rep for h, rep in resources.items() if h != href}
+    with (
+        patch.object(coordinator, "_poll_once", return_value=live),
+        patch.object(coordinator, "_attempt_observe_mode"),
+        _no_discovery_io(coordinator),
+        patch.object(hass.config_entries, "async_schedule_reload") as reload,
+    ):
+        await coordinator._async_update_data()
+
+    reload.assert_not_called()
+    assert all(b in coordinator.bound for b in kept)
+    assert not any(coordinator.provides(b) for b in kept)
+    assert href not in coordinator.last_resources
+    coordinator._observe.apply(href, resources[href], source="poll")
+    assert all(coordinator.provides(b) for b in kept if not b.desc.dynamic_presence)
+
+
+async def test_a_dynamic_presence_href_is_never_pruned(hass: HomeAssistant) -> None:
+    """A resource that comes and goes with what it reports stays in the
+    snapshot however long it's absent; an ordinary one is let go once the
+    board has answered _PRUNE_AFTER_CYCLES cycles without it."""
+    from dataclasses import asdict
+
+    entry = _mock_entry(hass)
+    coordinator = LocalThingsCoordinator(hass, entry)
+    resources = _soundbar_resources()
+    await coordinator._snapshot_store.async_save(
+        {"resources": resources, "subdevice_candidates": [], "identity": asdict(_IDENTITY)}
+    )
+    assert await coordinator.async_rehydrate()
+    dynamic = next(b.href for b in coordinator.bound if b.desc.dynamic_presence)
+    ordinary = next(
+        b.href
+        for b in coordinator.bound
+        if b.href != dynamic
+        and not any(o.href == b.href and o.desc.dynamic_presence for o in coordinator.bound)
+    )
+    live = {h: rep for h, rep in resources.items() if h not in (dynamic, ordinary)}
+
+    with (
+        patch.object(coordinator, "_poll_once", return_value=live),
+        patch.object(coordinator, "_attempt_observe_mode"),
+        _no_discovery_io(coordinator),
+        patch.object(coordinator, "_maybe_retry_observe_mode"),
+        patch.object(LocalThingsCoordinator, "_PRUNE_AFTER_CYCLES", 2),
+    ):
+        for _ in range(4):
+            await coordinator._async_update_data()
+    await hass.async_block_till_done(wait_background_tasks=True)
+
+    stored = await coordinator._snapshot_store.async_load()
+    assert stored is not None
+    banked = stored["resources"]
+    assert dynamic in banked
+    assert ordinary not in banked
+
+
+async def test_a_board_in_standby_never_ages_out_an_href(hass: HomeAssistant) -> None:
+    """A board in network standby completes the handshake and answers a few
+    reads. Those cycles don't count as the board answering, so an href that
+    missed the first read survives however long the board sleeps."""
+    from dataclasses import asdict
+
+    entry = _mock_entry(hass)
+    coordinator = LocalThingsCoordinator(hass, entry)
+    resources = _soundbar_resources()
+    await coordinator._snapshot_store.async_save(
+        {"resources": resources, "subdevice_candidates": [], "identity": asdict(_IDENTITY)}
+    )
+    assert await coordinator.async_rehydrate()
+    missed = next(b.href for b in coordinator.bound if not b.desc.dynamic_presence)
+    awake = {h: rep for h, rep in resources.items() if h != missed}
+    standby = dict(list(awake.items())[:2])
+
+    with (
+        patch.object(coordinator, "_attempt_observe_mode"),
+        _no_discovery_io(coordinator),
+        patch.object(coordinator, "_maybe_retry_observe_mode"),
+        patch.object(LocalThingsCoordinator, "_PRUNE_AFTER_CYCLES", 2),
+    ):
+        with patch.object(coordinator, "_poll_once", return_value=awake):
+            await coordinator._async_update_data()
+        with patch.object(coordinator, "_poll_once", return_value=standby):
+            for _ in range(10):
+                await coordinator._async_update_data()
+    await hass.async_block_till_done(wait_background_tasks=True)
+
+    stored = await coordinator._snapshot_store.async_load()
+    assert stored is not None
+    assert missed in stored["resources"]
+
+
+async def test_an_href_the_board_stopped_listing_is_let_go(hass: HomeAssistant) -> None:
+    """A flat board's /oic/res is everything it serves. An href it no longer
+    lists is gone rather than short: it isn't kept or retained, so no sweep
+    waits out its timeout."""
+    from dataclasses import asdict, replace
+
+    entry = _mock_entry(hass)
+    coordinator = LocalThingsCoordinator(hass, entry)
+    resources = _soundbar_resources()
+    await coordinator._snapshot_store.async_save(
+        {"resources": resources, "subdevice_candidates": [], "identity": asdict(_IDENTITY)}
+    )
+    assert await coordinator.async_rehydrate()
+    href = next(b.href for b in coordinator.bound if not b.desc.dynamic_presence)
+    gone = [b for b in coordinator.bound if b.href == href]
+    live = {h: rep for h, rep in resources.items() if h != href}
+    coordinator._identity = replace(
+        _IDENTITY, raw={**_IDENTITY.raw, "/oic/res": [{"href": h} for h in live]}
+    )
+
+    with (
+        patch.object(coordinator, "_poll_once", return_value=live),
+        patch.object(coordinator, "_attempt_observe_mode"),
+        _no_discovery_io(coordinator),
+    ):
+        await coordinator._async_update_data()
+
+    assert not any(b in coordinator.bound for b in gone)
+    assert not any(coordinator.provides(b) for b in gone)
+    stored = await coordinator._snapshot_store.async_load()
+    assert stored is not None
+    assert href not in stored["resources"]
+
+
+async def test_a_sweep_reads_hrefs_not_heard_from_last(hass: HomeAssistant) -> None:
+    """A retained href that keeps timing out can't use up the sweep's
+    budget before the hrefs that answer are read."""
+    from dataclasses import asdict
+
+    entry = _mock_entry(hass)
+    coordinator = LocalThingsCoordinator(hass, entry)
+    resources = _soundbar_resources()
+    await coordinator._snapshot_store.async_save(
+        {"resources": resources, "subdevice_candidates": [], "identity": asdict(_IDENTITY)}
+    )
+    assert await coordinator.async_rehydrate()
+    missed = sorted({b.href for b in coordinator.bound})[0]
+    live = {h: rep for h, rep in resources.items() if h != missed}
+    with (
+        patch.object(coordinator, "_poll_once", return_value=live),
+        patch.object(coordinator, "_attempt_observe_mode"),
+        _no_discovery_io(coordinator),
+    ):
+        await coordinator._async_update_data()
+    assert missed in coordinator._unconfirmed
+
+    order: list[str] = []
+
+    def _read(sess, hrefs, **kwargs):
+        order.extend(hrefs)
+        return iter(())
+
+    coordinator._flat_poll = coordinator._FLAT_FULL_EVERY_N_POLLS - 1
+    with (
+        patch("custom_components.localthings.coordinator.iter_resources", side_effect=_read),
+        pytest.raises(RuntimeError),
+    ):
+        coordinator._poll_flat_blocking(object())
+    assert order[-1] == missed
+
+
+async def test_a_pruned_href_is_swept_last_and_banked_again_if_it_answers(
+    hass: HomeAssistant,
+) -> None:
+    """Letting an href go from the snapshot doesn't make it a live href:
+    the sweep still reads it after the ones that answer, and if it answers
+    after all the snapshot takes it back."""
+    from dataclasses import asdict
+
+    entry = _mock_entry(hass)
+    coordinator = LocalThingsCoordinator(hass, entry)
+    resources = _soundbar_resources()
+    await coordinator._snapshot_store.async_save(
+        {"resources": resources, "subdevice_candidates": [], "identity": asdict(_IDENTITY)}
+    )
+    assert await coordinator.async_rehydrate()
+    missed = next(b.href for b in coordinator.bound if not b.desc.dynamic_presence)
+    awake = {h: rep for h, rep in resources.items() if h != missed}
+
+    async def _cycles(read: dict, count: int) -> None:
+        with (
+            patch.object(coordinator, "_poll_once", return_value=read),
+            patch.object(coordinator, "_attempt_observe_mode"),
+            patch.object(coordinator, "_maybe_retry_observe_mode"),
+            _no_discovery_io(coordinator),
+            patch.object(LocalThingsCoordinator, "_PRUNE_AFTER_CYCLES", 1),
+        ):
+            for _ in range(count):
+                await coordinator._async_update_data()
+        await hass.async_block_till_done(wait_background_tasks=True)
+
+    async def _banked() -> dict:
+        stored = await coordinator._snapshot_store.async_load()
+        assert stored is not None
+        return stored["resources"]
+
+    await _cycles(awake, 2)
+    assert missed not in await _banked()
+    assert missed in coordinator._pruned
+
+    order: list[str] = []
+
+    def _read(sess, hrefs, **kwargs):
+        order.extend(hrefs)
+        return iter(())
+
+    coordinator._flat_poll = coordinator._FLAT_FULL_EVERY_N_POLLS - 1
+    with (
+        patch("custom_components.localthings.coordinator.iter_resources", side_effect=_read),
+        pytest.raises(RuntimeError),
+    ):
+        coordinator._poll_flat_blocking(object())
+    assert order[-1] == missed
+
+    await _cycles(resources, 1)
+    assert missed in await _banked()
+    assert not coordinator._pruned
